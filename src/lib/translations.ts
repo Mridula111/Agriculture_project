@@ -140,7 +140,7 @@ export const translations = {
     articleNotFoundDesc: "ನೀವು ಹುಡುಕುತ್ತಿರುವ ಲೇಖನ ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ ಅಥವಾ ತೆಗೆದುಹಾಕಲಾಗಿದೆ.",
     backToNews: "ಸುದ್ದಿಗೆ ಹಿಂತಿರುಗಿ",
   },
-}  hi: {
+  hi: {
     // Common
     appName: "AquaCane",
     appTagline: "Smart Irrigation Advisory for Sugarcane",
