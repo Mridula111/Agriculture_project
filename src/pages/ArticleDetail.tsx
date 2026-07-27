@@ -11,7 +11,6 @@ export default function ArticleDetail() {
   const { id } = useParams<{ id: string }>();
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const [isDark, setIsDark] = useState(false);
 
   const article = MOCK_ARTICLES.find((a) => a.id === id);
 
@@ -53,11 +52,11 @@ export default function ArticleDetail() {
   const paragraphs = article.body.split("\n\n");
 
   return (
-    <div className={`${isDark ? 'dark bg-neutral-950' : 'bg-gradient-to-b from-green-50/50 to-white'} page-container min-h-screen transition-colors duration-300`}>
+    <div className="page-container min-h-screen transition-colors duration-300 dark:bg-neutral-950 bg-neutral-50">
       <Navbar />
 
       <main className="flex-1 content-wrapper py-8 max-w-3xl">
-        {/* Controls: Back and Theme Toggle */}
+        {/* Controls: Back */}
         <div className="flex items-center justify-between mb-4">
           <motion.div
             initial={{ opacity: 0, x: -10 }}
@@ -72,16 +71,6 @@ export default function ArticleDetail() {
               {t("backToNews")}
             </Link>
           </motion.div>
-
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            onClick={() => setIsDark(!isDark)}
-            className="p-2 rounded-full bg-white/50 dark:bg-neutral-800/50 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-300 hover:scale-105 transition-all shadow-sm"
-            aria-label="Toggle dark mode"
-          >
-            {isDark ? <Sun size={18} /> : <Moon size={18} />}
-          </motion.button>
         </div>
 
         <motion.article
