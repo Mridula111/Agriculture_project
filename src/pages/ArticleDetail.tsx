@@ -1,7 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, User, FileQuestion, Moon, Sun } from "lucide-react";
+import { ArrowLeft, Calendar, User, FileQuestion } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { useLanguage } from "@/context/LanguageContext";
 import { MOCK_ARTICLES } from "@/lib/mockData";

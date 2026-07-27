@@ -1,9 +1,11 @@
+import type { Language } from "./translations";
+
 export interface MockUser {
   name: string;
   phone: string;
   password: string;
   village: string;
-  language: "en" | "kn";
+  language: Language;
 }
 
 export interface Article {
