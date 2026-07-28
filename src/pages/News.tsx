@@ -30,7 +30,7 @@ export default function News() {
   const hasMore = visibleCount < filteredArticles.length;
 
   return (
-    <div className="page-container bg-gradient-to-b from-green-50/50 to-white min-h-screen">
+    <div className="page-container bg-gradient-to-b from-green-50/50 to-white dark:from-slate-950 dark:to-slate-900 min-h-screen text-slate-900 dark:text-slate-100 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 content-wrapper py-8">
@@ -40,7 +40,7 @@ export default function News() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-2xl sm:text-3xl font-bold text-green-900 font-[Outfit]">
+          <h1 className="text-2xl sm:text-3xl font-bold text-green-900 dark:text-green-400 font-[Outfit]">
             {t("newsTitle")}
           </h1>
 
@@ -48,7 +48,7 @@ export default function News() {
           <div className="relative mt-4 max-w-lg">
             <Search
               size={20}
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400"
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500"
             />
             <input
               id="news-search"
@@ -59,7 +59,7 @@ export default function News() {
                 setVisibleCount(ITEMS_PER_PAGE); // Reset pagination on search
               }}
               placeholder={t("newsSearch")}
-              className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-neutral-200 bg-white/80 backdrop-blur-sm text-base focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-500 transition-all placeholder:text-neutral-400"
+              className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-neutral-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-300 dark:focus:ring-green-500 focus:border-green-500 transition-all placeholder:text-neutral-400 dark:placeholder:text-neutral-500"
             />
           </div>
         </motion.div>
@@ -71,13 +71,13 @@ export default function News() {
             animate={{ opacity: 1 }}
             className="flex flex-col items-center justify-center py-20 text-center"
           >
-            <div className="w-16 h-16 bg-neutral-100 rounded-2xl flex items-center justify-center mb-4">
-              <FileQuestion size={32} className="text-neutral-400" />
+            <div className="w-16 h-16 bg-neutral-100 dark:bg-slate-800 rounded-2xl flex items-center justify-center mb-4">
+              <FileQuestion size={32} className="text-neutral-400 dark:text-neutral-500" />
             </div>
-            <p className="text-lg font-semibold text-neutral-600">
+            <p className="text-lg font-semibold text-neutral-600 dark:text-neutral-300">
               {t("noArticles")}
             </p>
-            <p className="text-sm text-neutral-400 mt-1">
+            <p className="text-sm text-neutral-400 dark:text-neutral-500 mt-1">
               Try a different search term
             </p>
           </motion.div>
@@ -93,7 +93,7 @@ export default function News() {
                 >
                   <Link
                     to={`/article/${article.id}`}
-                    className="group block bg-white rounded-xl border border-green-100 overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                    className="group block bg-white dark:bg-slate-900 rounded-xl border border-green-100 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
                   >
                     {/* Thumbnail */}
                     <div className="relative h-44 overflow-hidden">
@@ -103,22 +103,22 @@ export default function News() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 dark:from-black/70 to-transparent" />
                     </div>
 
                     {/* Content */}
                     <div className="p-4">
-                      <div className="flex items-center gap-1.5 text-xs text-neutral-400 mb-2">
+                      <div className="flex items-center gap-1.5 text-xs text-neutral-400 dark:text-neutral-500 mb-2">
                         <Calendar size={12} />
                         <span>{new Date(article.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</span>
                       </div>
-                      <h3 className="font-bold text-neutral-900 text-base leading-snug line-clamp-2">
+                      <h3 className="font-bold text-neutral-900 dark:text-slate-100 text-base leading-snug line-clamp-2">
                         {article.title}
                       </h3>
-                      <p className="text-sm text-neutral-500 mt-1.5 leading-relaxed line-clamp-2">
+                      <p className="text-sm text-neutral-500 dark:text-slate-400 mt-1.5 leading-relaxed line-clamp-2">
                         {article.excerpt}
                       </p>
-                      <div className="flex items-center gap-1 text-green-600 text-sm font-semibold mt-3 group-hover:gap-2 transition-all">
+                      <div className="flex items-center gap-1 text-green-600 dark:text-green-400 text-sm font-semibold mt-3 group-hover:gap-2 transition-all">
                         <span>{t("readMore")}</span>
                         <ArrowRight size={14} />
                       </div>
