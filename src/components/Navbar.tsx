@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { LanguageToggle } from "@/components/ui/LanguageToggle";
-import { Droplets, LogOut, Home, Newspaper, Moon, Sun } from "lucide-react";
+import { Droplets, LogOut, LogIn, UserPlus, Home, Newspaper, Moon, Sun } from "lucide-react";
 
 export function Navbar() {
-  const { logout } = useAuth();
+  const { currentUser, logout } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
@@ -14,8 +14,10 @@ export function Navbar() {
 
   // Initialize theme from localStorage or system preference
   useEffect(() => {
-    const isDarkStored = localStorage.getItem("theme") === "dark" ||
-      (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    const isDarkStored =
+      localStorage.getItem("theme") === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
     if (isDarkStored) {
       document.documentElement.classList.add("dark");
       setIsDark(true);
@@ -94,13 +96,33 @@ export function Navbar() {
 
           <LanguageToggle />
 
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors ml-1"
-          >
-            <LogOut size={18} />
-            <span className="hidden sm:inline">{t("logout")}</span>
-          </button>
+          {/* Conditional Auth Buttons */}
+          {currentUser ? (
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors ml-1"
+            >
+              <LogOut size={18} />
+              <span className="hidden sm:inline">{t("logout")}</span>
+            </button>
+          ) : (
+            <div className="flex items-center gap-2 ml-1">
+              <Link
+                to="/login"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-700 dark:text-neutral-200 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/30 transition-all"
+              >
+                <LogIn size={16} />
+                <span>Log In</span>
+              </Link>
+              <Link
+                to="/signup"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold bg-green-600 text-white hover:bg-green-700 shadow-sm transition-all"
+              >
+                <UserPlus size={16} />
+                <span className="hidden sm:inline">Sign Up</span>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>
