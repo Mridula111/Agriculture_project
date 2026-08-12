@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import {
-  CloudRain, Thermometer, Wind, Droplets, Eye, Sun, CloudSun,
+  CloudRain, Thermometer, Wind, Droplets, Sun, CloudSun,
   Cloud, CloudDrizzle, CloudSnow, CloudLightning, AlertTriangle,
   MapPin, RefreshCw, Gauge, Sunrise, Sunset,
 } from "lucide-react";

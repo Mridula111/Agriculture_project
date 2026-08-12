@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   Calculator, Wheat, Beaker, TrendingUp, IndianRupee,
-  ChevronDown, Leaf, Droplets, Truck, Users, Sprout,
+  ChevronDown, Leaf, Sprout,
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";

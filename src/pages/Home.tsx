@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Users, Map, Droplets, Brain, ArrowRight, Newspaper, TrendingUp, CloudRain, Bell, ShieldCheck, Calculator, FileText, Cpu, Bird } from "lucide-react";
+import { Users, Map, Droplets, Brain, ArrowRight, TrendingUp, CloudRain, Bell, ShieldCheck, Calculator, FileText, Cpu, Bird } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useAuth } from "@/context/AuthContext";

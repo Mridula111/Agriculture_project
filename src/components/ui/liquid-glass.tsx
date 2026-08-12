@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { ReactNode } from "react";
-import { cn } from "@/lib/utils"; // Assuming a utility for tailwind class merging exists, if not, I'll just use string template
+import type { ReactNode } from "react";
 
 export function LiquidGlassContainer({
   children,

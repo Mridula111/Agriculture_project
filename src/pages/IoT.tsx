@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Wifi, WifiOff, Battery, BatteryWarning, BatteryFull,
-  AlertTriangle, CheckCircle2, XCircle, Bell, BellOff,
+  AlertTriangle, CheckCircle2, XCircle, Bell,
   Thermometer, Droplets, Wind, Gauge, Zap, Waves,
-  Activity, Clock, MapPin, Settings, RefreshCw,
-  ChevronDown, Signal, Radio, Server, Cpu, LayoutGrid,
+  Activity, Clock, MapPin,
+  Signal, Radio, Server, Cpu, LayoutGrid,
   List, Eye,
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
@@ -568,7 +568,7 @@ export default function IoT() {
                 <div className="grid lg:grid-cols-2 gap-6">
                   {/* 24h History Chart */}
                   <LineChart
-                    data={selectedSensor.history.map((h, i) => ({
+                    data={selectedSensor.history.map((h) => ({
                       label: new Date(h.timestamp).toLocaleTimeString("en-IN", { hour: "2-digit" }),
                       value: h.value,
                     }))}

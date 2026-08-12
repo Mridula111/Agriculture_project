@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Plus, Trash2, Edit3, AlertTriangle, CheckCircle2,
+  Plus, Trash2, Edit3, AlertTriangle,
   Search, X, Package, Tractor, Droplets, Sprout, ShoppingCart, Leaf
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";

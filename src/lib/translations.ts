@@ -87,6 +87,7 @@ export const translations = {
     analysis: "ವಿಶ್ಲೇಷಣೆ",
     weather: "ಹವಾಮಾನ",
     livestock: "ಜಾನುವಾರು",
+    inventory: "ಇನ್ವೆಂಟರಿ",
     iot: "ಐಒಟಿ",
     reports: "ವರದಿಗಳು",
     back: "ಹಿಂದೆ",

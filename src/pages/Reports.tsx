@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  FileText, TrendingUp, TrendingDown, Droplets, IndianRupee,
-  Wheat, BarChart3, Download, Calendar, ArrowUpRight, ArrowDownRight,
+  FileText, TrendingUp, Droplets, IndianRupee,
+  Wheat, Download, Calendar, ArrowUpRight, ArrowDownRight,
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { LanguageToggle } from "@/components/ui/LanguageToggle";
-import { Droplets, LogOut, Home, Newspaper, Moon, Sun, Calculator, CloudRain, ShieldAlert, FileText, Cpu, Package } from "lucide-react";
+import { Droplets, LogOut, Home, Newspaper, Moon, Sun, Calculator, CloudRain, FileText, Cpu, Package } from "lucide-react";
 
 export function Navbar() {
   const { logout } = useAuth();
