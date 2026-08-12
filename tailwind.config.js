@@ -11,6 +11,7 @@ module.exports = {
     extend: {
       animation: {
         aurora: "aurora 60s linear infinite",
+        "spin-slow": "spin 15s linear infinite",
       },
       keyframes: {
         aurora: {

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { LanguageToggle } from "@/components/ui/LanguageToggle";
-import { Droplets, LogOut, Home, Newspaper, Moon, Sun } from "lucide-react";
+import { Droplets, LogOut, Home, Newspaper, Moon, Sun, Calculator, CloudRain, ShieldAlert, FileText, Cpu, Package } from "lucide-react";
 
 export function Navbar() {
   const { logout } = useAuth();
@@ -44,24 +44,29 @@ export function Navbar() {
 
   const navLinks = [
     { path: "/home", icon: Home, labelKey: "home" as const },
+    { path: "/analysis", icon: Calculator, labelKey: "analysis" as const },
+    { path: "/weather", icon: CloudRain, labelKey: "weather" as const },
+    { path: "/inventory", icon: Package, labelKey: "inventory" as const },
+    { path: "/iot", icon: Cpu, labelKey: "iot" as const },
+    { path: "/reports", icon: FileText, labelKey: "reports" as const },
     { path: "/news", icon: Newspaper, labelKey: "news" as const },
   ];
 
   return (
     <nav className="sticky top-0 z-50 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-lg border-b border-green-100 dark:border-neutral-800 shadow-sm transition-colors duration-300">
-      <div className="max-w-[1200px] mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="max-w-[1400px] mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo (Top Left) */}
-        <Link to="/home" className="flex items-center gap-2 group">
-          <div className="w-9 h-9 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
-            <Droplets size={20} className="text-white" />
+        <Link to="/home" className="flex items-center gap-3 group mr-8">
+          <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
+            <Droplets size={24} className="text-white" />
           </div>
-          <span className="font-extrabold text-lg text-green-800 dark:text-green-400 hidden sm:block tracking-tight transition-colors">
+          <span className="font-extrabold text-xl text-green-800 dark:text-green-400 tracking-tight transition-colors">
             {t("appName")}
           </span>
         </Link>
 
         {/* Nav Links and Controls (Top Right) */}
-        <div className="flex items-center gap-2 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 overflow-x-auto pb-1 sm:pb-0 scrollbar-hide">
           <div className="flex items-center gap-1 bg-neutral-100/50 dark:bg-neutral-800/50 p-1 rounded-xl">
             {navLinks.map((link) => {
               const isActive = location.pathname.startsWith(link.path);
@@ -76,7 +81,7 @@ export function Navbar() {
                   }`}
                 >
                   <link.icon size={16} />
-                  <span className="hidden sm:inline">{t(link.labelKey)}</span>
+                  <span className="hidden lg:inline">{t(link.labelKey)}</span>
                 </Link>
               );
             })}
@@ -86,17 +91,19 @@ export function Navbar() {
 
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+            className="p-2 rounded-lg text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors shrink-0"
             aria-label="Toggle Theme"
           >
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
 
-          <LanguageToggle />
+          <div className="shrink-0">
+            <LanguageToggle />
+          </div>
 
           <button
             onClick={handleLogout}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors ml-1"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors ml-1 shrink-0"
           >
             <LogOut size={18} />
             <span className="hidden sm:inline">{t("logout")}</span>

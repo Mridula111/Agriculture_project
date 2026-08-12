@@ -1,10 +1,10 @@
-# AquaCane — Smart Irrigation Advisory 🌾💧
+# DesiCane — Smart Irrigation Advisory 🌾💧
 
-![AquaCane Banner](https://images.unsplash.com/photo-1592982537447-6f23342084c8?auto=format&fit=crop&q=80&w=1200&h=400)
+![DesiCane Banner](https://images.unsplash.com/photo-1592982537447-6f23342084c8?auto=format&fit=crop&q=80&w=1200&h=400)
 
 **Live Demo:** [https://agriculture-project-mu-rosy.vercel.app/](https://agriculture-project-mu-rosy.vercel.app/)
 
-AquaCane is an **AI-driven irrigation advisory system** designed specifically for sugarcane farmers in Northern Karnataka. It provides actionable, real-time insights to optimize water usage, improve crop yield, and empower farmers with data-driven decision-making. 
+DesiCane is an **AI-driven irrigation advisory system** designed specifically for sugarcane farmers in Northern Karnataka. It provides actionable, real-time insights to optimize water usage, improve crop yield, and empower farmers with data-driven decision-making. 
 
 *This project is a concept built as a college deliverable in partnership with KIAAR and Godavari Biorefineries Ltd., focusing heavily on robust UI/UX design, multilingual accessibility, and software testing practices.*
 

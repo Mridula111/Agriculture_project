@@ -30,7 +30,7 @@ export default function News() {
   const hasMore = visibleCount < filteredArticles.length;
 
   return (
-    <div className="page-container bg-gradient-to-b from-green-50/50 to-white min-h-screen">
+    <div className="page-container bg-neutral-50 dark:bg-neutral-950 min-h-screen transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 content-wrapper py-8">
@@ -40,7 +40,7 @@ export default function News() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-2xl sm:text-3xl font-bold text-green-900 font-[Outfit]">
+          <h1 className="text-2xl sm:text-3xl font-bold text-green-900 dark:text-green-400 font-[Outfit]">
             {t("newsTitle")}
           </h1>
 
@@ -59,7 +59,7 @@ export default function News() {
                 setVisibleCount(ITEMS_PER_PAGE); // Reset pagination on search
               }}
               placeholder={t("newsSearch")}
-              className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-neutral-200 bg-white/80 backdrop-blur-sm text-base focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-500 transition-all placeholder:text-neutral-400"
+              className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-neutral-200 dark:border-neutral-700 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm text-base text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-500 transition-all placeholder:text-neutral-400"
             />
           </div>
         </motion.div>
@@ -71,10 +71,10 @@ export default function News() {
             animate={{ opacity: 1 }}
             className="flex flex-col items-center justify-center py-20 text-center"
           >
-            <div className="w-16 h-16 bg-neutral-100 rounded-2xl flex items-center justify-center mb-4">
+            <div className="w-16 h-16 bg-neutral-100 dark:bg-neutral-800 rounded-2xl flex items-center justify-center mb-4">
               <FileQuestion size={32} className="text-neutral-400" />
             </div>
-            <p className="text-lg font-semibold text-neutral-600">
+            <p className="text-lg font-semibold text-neutral-600 dark:text-neutral-300">
               {t("noArticles")}
             </p>
             <p className="text-sm text-neutral-400 mt-1">
@@ -93,7 +93,7 @@ export default function News() {
                 >
                   <Link
                     to={`/article/${article.id}`}
-                    className="group block bg-white rounded-xl border border-green-100 overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                    className="group block bg-white dark:bg-neutral-900 rounded-xl border border-neutral-100 dark:border-neutral-800 overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
                   >
                     {/* Thumbnail */}
                     <div className="relative h-44 overflow-hidden">
@@ -112,7 +112,7 @@ export default function News() {
                         <Calendar size={12} />
                         <span>{new Date(article.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</span>
                       </div>
-                      <h3 className="font-bold text-neutral-900 text-base leading-snug line-clamp-2">
+                      <h3 className="font-bold text-neutral-900 dark:text-white text-base leading-snug line-clamp-2">
                         {article.title}
                       </h3>
                       <p className="text-sm text-neutral-500 mt-1.5 leading-relaxed line-clamp-2">

@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Users, Map, Droplets, Brain, ArrowRight, AlertCircle, Lightbulb, Newspaper, TrendingUp, CloudRain, Bell, ShieldCheck } from "lucide-react";
+import { Users, Map, Droplets, Brain, ArrowRight, Newspaper, TrendingUp, CloudRain, Bell, ShieldCheck, Calculator, FileText, Cpu, Bird } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { MOCK_ARTICLES } from "@/lib/mockData";
@@ -21,40 +22,39 @@ const stats = [
 
 const exploreCards = [
   {
-    titleKey: "exploreProblem" as const,
-    descKey: "exploreProblemDesc" as const,
-    icon: AlertCircle,
+    titleKey: "analysis" as const,
+    descKey: "exploreSolutionDesc" as const, // reusing for now
+    icon: Calculator,
     color: "from-amber-400 to-orange-500",
-    link: "#",
+    link: "/analysis",
   },
   {
-    titleKey: "exploreSolution" as const,
+    titleKey: "weather" as const,
     descKey: "exploreSolutionDesc" as const,
-    icon: Lightbulb,
-    color: "from-green-400 to-emerald-500",
-    link: "#",
-  },
-  {
-    titleKey: "exploreNews" as const,
-    descKey: "exploreNewsDesc" as const,
-    icon: Newspaper,
+    icon: CloudRain,
     color: "from-blue-400 to-indigo-500",
-    link: "/news",
+    link: "/weather",
   },
-  // New cards
   {
-    titleKey: "exploreProblem" as const, // reusing keys for simplicity
-    descKey: "exploreNewsDesc" as const,
-    icon: TrendingUp,
+    titleKey: "livestock" as const,
+    descKey: "exploreProblemDesc" as const,
+    icon: Bird,
     color: "from-purple-400 to-pink-500",
-    link: "#",
+    link: "/livestock",
   },
   {
-    titleKey: "exploreSolution" as const,
-    descKey: "exploreSolutionDesc" as const,
-    icon: ShieldCheck,
+    titleKey: "iot" as const,
+    descKey: "exploreProblemDesc" as const,
+    icon: Cpu,
     color: "from-cyan-400 to-blue-500",
-    link: "#",
+    link: "/iot",
+  },
+  {
+    titleKey: "reports" as const,
+    descKey: "exploreNewsDesc" as const,
+    icon: FileText,
+    color: "from-green-400 to-emerald-500",
+    link: "/reports",
   },
 ];
 
@@ -285,6 +285,8 @@ export default function Home() {
           </div>
         </section>
       </main>
+
+      <Footer />
     </div>
   );
 }

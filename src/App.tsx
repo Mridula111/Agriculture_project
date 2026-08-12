@@ -7,11 +7,14 @@ import Login from "@/pages/Login";
 import Home from "@/pages/Home";
 import News from "@/pages/News";
 import ArticleDetail from "@/pages/ArticleDetail";
+import Analysis from "@/pages/Analysis";
+import Weather from "@/pages/Weather";
+import Inventory from "@/pages/Inventory";
+import IoT from "@/pages/IoT";
+import Reports from "@/pages/Reports";
+import Landing from "@/pages/Landing";
 
-function RootRedirect() {
-  const { currentUser } = useAuth();
-  return <Navigate to={currentUser ? "/home" : "/login"} replace />;
-}
+
 
 export default function App() {
   return (
@@ -19,7 +22,7 @@ export default function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<RootRedirect />} />
+            <Route path="/" element={<Landing />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route
@@ -43,6 +46,46 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <ArticleDetail />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/analysis"
+              element={
+                <ProtectedRoute>
+                  <Analysis />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/weather"
+              element={
+                <ProtectedRoute>
+                  <Weather />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/inventory"
+              element={
+                <ProtectedRoute>
+                  <Inventory />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/iot"
+              element={
+                <ProtectedRoute>
+                  <IoT />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/reports"
+              element={
+                <ProtectedRoute>
+                  <Reports />
                 </ProtectedRoute>
               }
             />

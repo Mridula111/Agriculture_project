@@ -16,7 +16,7 @@ export const AuroraBackground = ({
     <main>
       <div
         className={cn(
-          "relative flex flex-col h-[100vh] items-center justify-center bg-[#f0fdf4] text-slate-950 transition-all",
+          "relative flex flex-col min-h-screen items-center justify-center bg-neutral-950 text-white transition-all overflow-hidden",
           className
         )}
         {...props}
@@ -25,18 +25,18 @@ export const AuroraBackground = ({
           <div
             className={cn(
               `
-            [--white-gradient:repeating-linear-gradient(100deg,#f0fdf4_0%,#f0fdf4_7%,transparent_10%,transparent_12%,#f0fdf4_16%)]
-            [--aurora:repeating-linear-gradient(100deg,#22c55e_10%,#86efac_15%,#bbf7d0_20%,#dcfce7_25%,#4ade80_30%)]
-            [background-image:var(--white-gradient),var(--aurora)]
+            [--dark-gradient:repeating-linear-gradient(100deg,#0a0a0a_0%,#0a0a0a_7%,transparent_10%,transparent_12%,#0a0a0a_16%)]
+            [--aurora:repeating-linear-gradient(100deg,#064e3b_10%,#047857_15%,#059669_20%,#10b981_25%,#34d399_30%)]
+            [background-image:var(--dark-gradient),var(--aurora)]
             [background-size:300%,_200%]
             [background-position:50%_50%,50%_50%]
-            filter blur-[10px]
+            filter blur-[10px] invert-0
             after:content-[""] after:absolute after:inset-0 
-            after:[background-image:var(--white-gradient),var(--aurora)]
+            after:[background-image:var(--dark-gradient),var(--aurora)]
             after:[background-size:200%,_100%] 
             after:animate-[aurora_60s_linear_infinite] after:[background-attachment:fixed] after:mix-blend-difference
             pointer-events-none
-            absolute -inset-[10px] opacity-50 will-change-transform`,
+            absolute -inset-[10px] opacity-70 will-change-transform`,
               showRadialGradient &&
                 `[mask-image:radial-gradient(ellipse_at_100%_0%,black_10%,transparent_70%)]`
             )}

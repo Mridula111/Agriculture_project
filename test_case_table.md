@@ -1,6 +1,6 @@
 # Software Testing — Manual Test Case Table
 
-**Project:** AquaCane — AI-Driven Irrigation Advisory System  
+**Project:** DesiCane — AI-Driven Irrigation Advisory System  
 **Module:** Frontend Web Application (5 Pages)  
 **Tester:** _________________  
 **Date:** _________________
@@ -53,7 +53,7 @@
 | HM-03 | Stat boxes | View home page | 4 stat boxes visible: 2,400+ / 850 / 32% / 3 | | |
 | HM-04 | Navigation cards | View home page | 3 explore cards visible: Problem, Solution, Latest News | | |
 | HM-05 | News card link | Click "Latest News" explore card | Navigates to /news | | |
-| HM-06 | Navbar presence | View home page | Navbar shows AquaCane logo, Home, News, Language toggle, Logout | | |
+| HM-06 | Navbar presence | View home page | Navbar shows DesiCane logo, Home, News, Language toggle, Logout | | |
 | HM-07 | Logout clears session | Click Logout | Redirects to /login, session state cleared | | |
 | HM-08 | Unauthenticated access | Open /home directly without logging in | Redirects to /login (route guard works) | | |
 | HM-09 | Language toggle in navbar | Switch to Kannada in navbar | All labels on home page switch to Kannada | | |
