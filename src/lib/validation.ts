@@ -23,8 +23,7 @@ export interface LoginData {
  * Returns an array of errors — empty array means valid.
  */
 export function validateSignUp(
-  data: SignUpData,
-  existingUsers: MockUser[]
+  data: SignUpData
 ): ValidationError[] {
   const errors: ValidationError[] = [];
 
@@ -40,8 +39,6 @@ export function validateSignUp(
     errors.push({ field: "phone", message: "phoneNonNumeric" });
   } else if (data.phone.length !== 10) {
     errors.push({ field: "phone", message: "phoneInvalid" });
-  } else if (existingUsers.some((u) => u.phone === data.phone)) {
-    errors.push({ field: "phone", message: "duplicatePhone" });
   }
 
   // Password required + length
@@ -66,8 +63,7 @@ export function validateSignUp(
  * Returns an array of errors — empty array means valid.
  */
 export function validateLogin(
-  data: LoginData,
-  existingUsers: MockUser[]
+  data: LoginData
 ): ValidationError[] {
   const errors: ValidationError[] = [];
 
@@ -79,15 +75,7 @@ export function validateLogin(
     errors.push({ field: "password", message: "fieldRequired" });
   }
 
-  // If basic format is valid, check against mock database
-  if (data.phone.trim() && data.password) {
-    const user = existingUsers.find((u) => u.phone === data.phone);
-    if (!user) {
-      errors.push({ field: "phone", message: "noAccountFound" });
-    } else if (user.password !== data.password) {
-      errors.push({ field: "password", message: "incorrectPassword" });
-    }
-  }
+
 
   return errors;
 }

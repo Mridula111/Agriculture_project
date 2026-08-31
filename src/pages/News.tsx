@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Search, FileQuestion, ArrowRight, Calendar } from "lucide-react";
@@ -13,18 +13,46 @@ export default function News() {
   const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+  const [articles, setArticles] = useState(MOCK_ARTICLES);
+  const [isLoadingNews, setIsLoadingNews] = useState(false);
+
+  useEffect(() => {
+    async function fetchNews() {
+      setIsLoadingNews(true);
+      try {
+        const res = await fetch('/api/news');
+        if (res.ok) {
+          const data = await res.json();
+          // Merge AI text with mock thumbnails
+          const newArticles = data.articles.map((aiArticle: any, index: number) => {
+            const mockIndex = index % MOCK_ARTICLES.length;
+            return {
+              ...aiArticle,
+              thumbnail: MOCK_ARTICLES[mockIndex].thumbnail
+            };
+          });
+          setArticles(newArticles);
+        }
+      } catch (err) {
+        console.error('Error fetching AI news:', err);
+      } finally {
+        setIsLoadingNews(false);
+      }
+    }
+    fetchNews();
+  }, []);
 
   // Filter articles by keyword
   const filteredArticles = useMemo(() => {
-    if (!searchQuery.trim()) return MOCK_ARTICLES;
+    if (!searchQuery.trim()) return articles;
     const q = searchQuery.toLowerCase();
-    return MOCK_ARTICLES.filter(
+    return articles.filter(
       (a) =>
         a.title.toLowerCase().includes(q) ||
         a.excerpt.toLowerCase().includes(q) ||
         a.author.toLowerCase().includes(q)
     );
-  }, [searchQuery]);
+  }, [searchQuery, articles]);
 
   const displayedArticles = filteredArticles.slice(0, visibleCount);
   const hasMore = visibleCount < filteredArticles.length;
@@ -64,8 +92,15 @@ export default function News() {
           </div>
         </motion.div>
 
+        {isLoadingNews && (
+          <div className="flex justify-center items-center py-10">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
+            <span className="ml-3 text-neutral-500">Generating live news...</span>
+          </div>
+        )}
+
         {/* Articles Grid */}
-        {filteredArticles.length === 0 ? (
+        {!isLoadingNews && filteredArticles.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

@@ -4,35 +4,55 @@ import { INITIAL_USERS, type MockUser } from "@/lib/mockData";
 interface AuthContextType {
   currentUser: MockUser | null;
   users: MockUser[];
-  login: (phone: string, password: string) => MockUser | null;
-  signup: (user: MockUser) => void;
+  login: (phone: string, password: string) => Promise<MockUser | null>;
+  signup: (user: MockUser) => Promise<void>;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<MockUser | null>(null);
+  const [currentUser, setCurrentUser] = useState<MockUser | null>(() => {
+    const saved = localStorage.getItem("currentUser");
+    return saved ? JSON.parse(saved) : null;
+  });
   const [users, setUsers] = useState<MockUser[]>([...INITIAL_USERS]);
 
   const login = useCallback(
-    (phone: string, _password: string): MockUser | null => {
-      const user = users.find((u) => u.phone === phone && u.password === _password);
-      if (user) {
-        setCurrentUser(user);
-        return user;
+    async (phone: string, password: string): Promise<MockUser | null> => {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, password })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setCurrentUser(data.user);
+        localStorage.setItem("currentUser", JSON.stringify(data.user));
+        return data.user;
+      } else {
+        const errData = await res.json();
+        throw new Error(errData.message || 'Login failed');
       }
-      return null;
     },
-    [users]
+    []
   );
 
-  const signup = useCallback((user: MockUser) => {
-    setUsers((prev) => [...prev, user]);
+  const signup = useCallback(async (user: MockUser) => {
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user)
+    });
+    if (!res.ok) {
+      const errData = await res.json();
+      throw new Error(errData.message || 'Signup failed');
+    }
   }, []);
 
   const logout = useCallback(() => {
     setCurrentUser(null);
+    localStorage.removeItem("currentUser");
   }, []);
 
   return (

@@ -12,7 +12,7 @@ import { validateSignUp } from "@/lib/validation";
 import type { TranslationKey } from "@/lib/translations";
 
 export default function SignUp() {
-  const { users, signup } = useAuth();
+  const { signup } = useAuth();
   const { t, language } = useLanguage();
   const navigate = useNavigate();
 
@@ -24,12 +24,11 @@ export default function SignUp() {
   const [errors, setErrors] = useState<Record<string, TranslationKey>>({});
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const validationErrors = validateSignUp(
-      { name, phone, password, confirmPassword, village },
-      users
+      { name, phone, password, confirmPassword, village }
     );
 
     if (validationErrors.length > 0) {
@@ -41,22 +40,26 @@ export default function SignUp() {
       return;
     }
 
-    // Success
-    signup({
-      name: name.trim(),
-      phone,
-      password,
-      village: village.trim(),
-      language,
-    });
+    try {
+      // Success
+      await signup({
+        name: name.trim(),
+        phone,
+        password,
+        village: village.trim(),
+        language,
+      });
 
-    setErrors({});
-    setSuccess(true);
+      setErrors({});
+      setSuccess(true);
 
-    // Redirect to login after a brief delay
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
+      // Redirect to login after a brief delay
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } catch (err) {
+      setErrors({ phone: "duplicatePhone" as TranslationKey });
+    }
   };
 
   return (

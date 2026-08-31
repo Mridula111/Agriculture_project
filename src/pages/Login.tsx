@@ -12,7 +12,7 @@ import { validateLogin } from "@/lib/validation";
 import type { TranslationKey } from "@/lib/translations";
 
 export default function Login() {
-  const { users, login } = useAuth();
+  const { login } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ export default function Login() {
       setErrors({});
 
       // Basic validation
-      const validationErrors = validateLogin({ phone, password }, users);
+      const validationErrors = validateLogin({ phone, password });
 
       if (validationErrors.length > 0) {
         const errorMap: Record<string, TranslationKey> = {};
@@ -50,16 +50,23 @@ export default function Login() {
 
       // Simulate loading delay (1s)
       setLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Wait a tiny bit just for UI feel, or remove the delay
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
-      const user = login(phone, password);
-      setLoading(false);
+      try {
+        const user = await login(phone, password);
+        setLoading(false);
 
-      if (user) {
-        navigate("/home");
+        if (user) {
+          navigate("/home");
+        }
+      } catch (err) {
+        setLoading(false);
+        setFailCount((prev) => prev + 1);
+        setErrors({ phone: "noAccountFound" as TranslationKey });
       }
     },
-    [phone, password, users, login, navigate]
+    [phone, password, login, navigate]
   );
 
   return (
