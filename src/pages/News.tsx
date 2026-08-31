@@ -7,6 +7,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { MOCK_ARTICLES } from "@/lib/mockData";
 import { Button } from "@/components/ui/Button";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 const ITEMS_PER_PAGE = 4;
 
 export default function News() {
@@ -21,7 +22,7 @@ export default function News() {
     async function fetchNews() {
       setIsLoadingNews(true);
       try {
-        const res = await fetch('/api/news');
+        const res = await fetch(`${API_BASE_URL}/api/news`);
         if (res.ok) {
           const data = await res.json();
           // Merge AI text with mock thumbnails
@@ -46,7 +47,7 @@ export default function News() {
   const handleLoadMore = async () => {
     setIsLoadingMore(true);
     try {
-      const res = await fetch('/api/news');
+      const res = await fetch(`${API_BASE_URL}/api/news`);
       if (res.ok) {
         const data = await res.json();
         const newArticles = data.articles.map((aiArticle: any, index: number) => {
@@ -71,7 +72,7 @@ export default function News() {
     if (!searchQuery.trim()) return;
     setIsLoadingNews(true);
     try {
-      const res = await fetch(`/api/news?q=${encodeURIComponent(searchQuery)}`);
+      const res = await fetch(`${API_BASE_URL}/api/news?q=${encodeURIComponent(searchQuery)}`);
       if (res.ok) {
         const data = await res.json();
         const newArticles = data.articles.map((aiArticle: any, index: number) => {
