@@ -16,7 +16,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const saved = localStorage.getItem("currentUser");
     return saved ? JSON.parse(saved) : null;
   });
-  const [users, setUsers] = useState<MockUser[]>([...INITIAL_USERS]);
+  const [users] = useState<MockUser[]>([...INITIAL_USERS]);
 
   const login = useCallback(
     async (phone: string, password: string): Promise<MockUser | null> => {

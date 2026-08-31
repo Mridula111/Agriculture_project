@@ -15,6 +15,7 @@ export default function News() {
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [articles, setArticles] = useState(MOCK_ARTICLES);
   const [isLoadingNews, setIsLoadingNews] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   useEffect(() => {
     async function fetchNews() {
@@ -42,6 +43,55 @@ export default function News() {
     fetchNews();
   }, []);
 
+  const handleLoadMore = async () => {
+    setIsLoadingMore(true);
+    try {
+      const res = await fetch('/api/news');
+      if (res.ok) {
+        const data = await res.json();
+        const newArticles = data.articles.map((aiArticle: any, index: number) => {
+          const mockIndex = (articles.length + index) % MOCK_ARTICLES.length;
+          return {
+            ...aiArticle,
+            id: aiArticle.id + '-' + Date.now() + index, // Ensure unique ID
+            thumbnail: MOCK_ARTICLES[mockIndex].thumbnail
+          };
+        });
+        setArticles(prev => [...prev, ...newArticles]);
+        setVisibleCount(prev => prev + newArticles.length);
+      }
+    } catch (err) {
+      console.error('Error fetching more AI news:', err);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  };
+
+  const handleGenerateSearch = async () => {
+    if (!searchQuery.trim()) return;
+    setIsLoadingNews(true);
+    try {
+      const res = await fetch(`/api/news?q=${encodeURIComponent(searchQuery)}`);
+      if (res.ok) {
+        const data = await res.json();
+        const newArticles = data.articles.map((aiArticle: any, index: number) => {
+          const mockIndex = (articles.length + index) % MOCK_ARTICLES.length;
+          return {
+            ...aiArticle,
+            id: aiArticle.id + '-' + Date.now() + index,
+            thumbnail: MOCK_ARTICLES[mockIndex].thumbnail
+          };
+        });
+        setArticles(prev => [...newArticles, ...prev]);
+        setVisibleCount(prev => prev + newArticles.length);
+      }
+    } catch (err) {
+      console.error('Error generating specific news:', err);
+    } finally {
+      setIsLoadingNews(false);
+    }
+  };
+
   // Filter articles by keyword
   const filteredArticles = useMemo(() => {
     if (!searchQuery.trim()) return articles;
@@ -55,7 +105,7 @@ export default function News() {
   }, [searchQuery, articles]);
 
   const displayedArticles = filteredArticles.slice(0, visibleCount);
-  const hasMore = visibleCount < filteredArticles.length;
+  const hasMore = !searchQuery.trim(); // Always show load more if not searching
 
   return (
     <div className="page-container bg-neutral-50 dark:bg-neutral-950 min-h-screen transition-colors duration-300">
@@ -110,11 +160,14 @@ export default function News() {
               <FileQuestion size={32} className="text-neutral-400" />
             </div>
             <p className="text-lg font-semibold text-neutral-600 dark:text-neutral-300">
-              {t("noArticles")}
+              No existing articles found for "{searchQuery}"
             </p>
-            <p className="text-sm text-neutral-400 mt-1">
-              Try a different search term
+            <p className="text-sm text-neutral-400 mt-2 mb-6">
+              Would you like the AI to generate live news about this topic?
             </p>
+            <Button onClick={handleGenerateSearch} disabled={isLoadingNews}>
+              {isLoadingNews ? "Generating..." : `Generate News for "${searchQuery}"`}
+            </Button>
           </motion.div>
         ) : (
           <>
@@ -128,6 +181,7 @@ export default function News() {
                 >
                   <Link
                     to={`/article/${article.id}`}
+                    state={{ article }}
                     className="group block bg-white dark:bg-neutral-900 rounded-xl border border-neutral-100 dark:border-neutral-800 overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
                   >
                     {/* Thumbnail */}
@@ -150,10 +204,10 @@ export default function News() {
                       <h3 className="font-bold text-neutral-900 dark:text-white text-base leading-snug line-clamp-2">
                         {article.title}
                       </h3>
-                      <p className="text-sm text-neutral-500 mt-1.5 leading-relaxed line-clamp-2">
-                        {article.excerpt}
+                      <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2 leading-relaxed">
+                        {article.body || article.excerpt}
                       </p>
-                      <div className="flex items-center gap-1 text-green-600 text-sm font-semibold mt-3 group-hover:gap-2 transition-all">
+                      <div className="flex items-center gap-1 text-green-600 text-sm font-semibold mt-4 group-hover:gap-2 transition-all">
                         <span>{t("readMore")}</span>
                         <ArrowRight size={14} />
                       </div>
@@ -169,9 +223,10 @@ export default function News() {
                 <Button
                   id="load-more"
                   variant="secondary"
-                  onClick={() => setVisibleCount((prev) => prev + ITEMS_PER_PAGE)}
+                  onClick={handleLoadMore}
+                  disabled={isLoadingMore}
                 >
-                  {t("loadMore")}
+                  {isLoadingMore ? "Generating..." : t("loadMore")}
                 </Button>
               </div>
             )}

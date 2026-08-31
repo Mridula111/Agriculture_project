@@ -1,4 +1,4 @@
-import type { MockUser } from "./mockData";
+
 
 export interface ValidationError {
   field: string;

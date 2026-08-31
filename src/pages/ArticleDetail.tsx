@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, User, FileQuestion } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
@@ -10,8 +10,9 @@ export default function ArticleDetail() {
   const { id } = useParams<{ id: string }>();
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const article = MOCK_ARTICLES.find((a) => a.id === id);
+  const article = location.state?.article || MOCK_ARTICLES.find((a) => a.id === id);
 
   // Article not found fallback
   if (!article) {
