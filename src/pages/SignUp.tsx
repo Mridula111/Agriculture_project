@@ -57,7 +57,8 @@ export default function SignUp() {
       setTimeout(() => {
         navigate("/login");
       }, 2000);
-    } catch (err) {
+    } catch (err: any) {
+      alert(`Signup Error: ${err.message}`);
       setErrors({ phone: "duplicatePhone" as TranslationKey });
     }
   };
