@@ -60,10 +60,16 @@ export default function Login() {
         if (user) {
           navigate("/home");
         }
-      } catch (err) {
+      } catch (err: any) {
         setLoading(false);
         setFailCount((prev) => prev + 1);
-        setErrors({ phone: "noAccountFound" as TranslationKey });
+        alert(`Login Error: ${err.message}`);
+        
+        if (err.message.includes('password')) {
+          setErrors({ password: "incorrectPassword" as TranslationKey });
+        } else {
+          setErrors({ phone: "noAccountFound" as TranslationKey });
+        }
       }
     },
     [phone, password, login, navigate]
