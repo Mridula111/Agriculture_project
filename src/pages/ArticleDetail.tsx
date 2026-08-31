@@ -113,7 +113,7 @@ export default function ArticleDetail() {
 
           {/* Body */}
           <div className="mt-6 space-y-4">
-            {paragraphs.map((paragraph, index) => {
+            {paragraphs.map((paragraph: string, index: number) => {
               // Handle bold text markers
               if (paragraph.startsWith("**") && paragraph.endsWith("**")) {
                 return (
@@ -131,7 +131,7 @@ export default function ArticleDetail() {
                 const parts = paragraph.split("**");
                 return (
                   <div key={index}>
-                    {parts.map((part, i) =>
+                    {parts.map((part: string, i: number) =>
                       i % 2 === 1 ? (
                         <h3
                           key={i}
@@ -157,7 +157,7 @@ export default function ArticleDetail() {
                 const items = paragraph.split("\n").filter(Boolean);
                 return (
                   <ul key={index} className="space-y-2 ml-5">
-                    {items.map((item, i) => (
+                    {items.map((item: string, i: number) => (
                       <li
                         key={i}
                         className="text-neutral-700 dark:text-neutral-300 leading-relaxed text-base sm:text-lg list-disc"
@@ -174,7 +174,7 @@ export default function ArticleDetail() {
                 const items = paragraph.split("\n").filter(Boolean);
                 return (
                   <ol key={index} className="space-y-2 ml-5">
-                    {items.map((item, i) => (
+                    {items.map((item: string, i: number) => (
                       <li
                         key={i}
                         className="text-neutral-700 dark:text-neutral-300 leading-relaxed text-base sm:text-lg list-decimal"
