@@ -60,11 +60,21 @@ const SENSOR_COLORS: Record<string, string> = {
   wind_speed: "#6366f1",
 };
 
+// Cryptographically safe random helper for SonarQube compliance
+function getSecureRandom(): number {
+  if (typeof window !== "undefined" && window.crypto) {
+    const uintArr = new Uint32Array(1);
+    window.crypto.getRandomValues(uintArr);
+    return uintArr[0] / 0xffffffff;
+  }
+  return 0.5;
+}
+
 function generateHistory(baseValue: number, variance: number, count: number): SensorReading[] {
   const now = Date.now();
   return Array.from({ length: count }, (_, i) => ({
     timestamp: new Date(now - (count - i) * 3600000).toISOString(),
-    value: Math.max(0, baseValue + (Math.random() - 0.5) * variance * 2),
+    value: Math.max(0, baseValue + (getSecureRandom() - 0.5) * variance * 2),
   }));
 }
 
@@ -230,14 +240,15 @@ export default function IoT() {
     setAlerts(generateAlerts(sensors));
   }, [sensors]);
 
-  // Simulate real-time updates every 5 seconds
+  // Real-time updates with secure crypto random values
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       setSensors((prev) =>
         prev.map((s) => {
           if (s.status === "offline") return s;
           const variance = s.type === "water_flow" ? 50 : s.type === "light" ? 5000 : s.type === "ec" ? 0.1 : s.type === "ph" ? 0.05 : 1.5;
-          const newValue = Math.max(s.min, Math.min(s.max, s.currentValue + (Math.random() - 0.5) * variance));
+          const rand = getSecureRandom();
+          const newValue = Math.max(s.min, Math.min(s.max, s.currentValue + (rand - 0.5) * variance));
           const newHistory = [...s.history.slice(1), { timestamp: new Date().toISOString(), value: newValue }];
           return { ...s, currentValue: newValue, history: newHistory };
         })
@@ -280,7 +291,7 @@ export default function IoT() {
                 </h1>
               </div>
               <p className="text-neutral-600 dark:text-neutral-400 text-lg max-w-2xl">
-                Real-time sensor network monitoring — soil moisture, temperature, pH, water flow, and environmental data across all plots.
+                Real-time sensor network monitoring - soil moisture, temperature, pH, water flow, and environmental data across all plots.
               </p>
             </motion.div>
           </div>
@@ -339,7 +350,7 @@ export default function IoT() {
                           <XCircle size={16} className="text-red-500 flex-shrink-0 mt-0.5" />
                           <div>
                             <p className="text-sm text-neutral-800 dark:text-neutral-200">{alert.message}</p>
-                            <p className="text-[10px] text-neutral-400 mt-1">{alert.location} • {new Date(alert.timestamp).toLocaleTimeString("en-IN")}</p>
+                            <p className="text-[10px] text-neutral-400 mt-1">{alert.location} | {new Date(alert.timestamp).toLocaleTimeString("en-IN")}</p>
                           </div>
                         </div>
                         <button
@@ -394,7 +405,7 @@ export default function IoT() {
             {/* Live indicator */}
             <div className="flex items-center gap-1.5 text-xs text-green-600 dark:text-green-400 font-semibold">
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              LIVE — Updates every 5s
+              LIVE - Updates every 5s
             </div>
           </div>
 
@@ -406,7 +417,7 @@ export default function IoT() {
             className="bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-100 dark:border-neutral-800 shadow-lg p-6"
           >
             <h2 className="text-sm font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-6">
-              Key Metrics — Real-Time Gauges
+              Key Metrics - Real-Time Gauges
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
               {sensors.filter((s) => s.status !== "offline").slice(0, 6).map((sensor) => (
@@ -558,7 +569,7 @@ export default function IoT() {
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-lg font-bold text-neutral-900 dark:text-white flex items-center gap-2">
                     <Eye size={18} className="text-green-500" />
-                    {selectedSensor.name} — {selectedSensor.id}
+                    {selectedSensor.name} - {selectedSensor.id}
                   </h2>
                   <button onClick={() => setSelectedSensor(null)} className="text-neutral-400 hover:text-neutral-600 p-1">
                     ✕
@@ -592,7 +603,7 @@ export default function IoT() {
                         { label: "Last Calibration", value: selectedSensor.lastCalibration },
                         { label: "Low Threshold", value: `${selectedSensor.thresholds.low} ${selectedSensor.unit}` },
                         { label: "High Threshold", value: `${selectedSensor.thresholds.high} ${selectedSensor.unit}` },
-                        { label: "Range", value: `${selectedSensor.min} — ${selectedSensor.max} ${selectedSensor.unit}` },
+                        { label: "Range", value: `${selectedSensor.min} - ${selectedSensor.max} ${selectedSensor.unit}` },
                       ].map((row) => (
                         <div key={row.label} className="flex items-center justify-between py-1.5 border-b border-neutral-100 dark:border-neutral-800">
                           <span className="text-xs text-neutral-500 dark:text-neutral-400">{row.label}</span>
@@ -614,7 +625,7 @@ export default function IoT() {
             className="bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-100 dark:border-neutral-800 shadow-lg p-6"
           >
             <h2 className="text-sm font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-4">
-              Network Topology — Sensor Placement
+              Network Topology - Sensor Placement
             </h2>
             <div className="grid grid-cols-4 gap-3">
               {["A", "B", "C", "Main"].map((plot) => {
@@ -622,7 +633,7 @@ export default function IoT() {
                 return (
                   <div key={plot} className="bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-4 border border-neutral-100 dark:border-neutral-700">
                     <h4 className="text-xs font-bold text-neutral-700 dark:text-neutral-300 mb-3">
-                      {plot === "Main" ? "🏭 Main Hub" : `🌾 Plot ${plot}`}
+                      {plot === "Main" ? "Main Hub" : `Plot ${plot}`}
                     </h4>
                     <div className="space-y-2">
                       {plotSensors.map((s) => {
@@ -642,7 +653,7 @@ export default function IoT() {
                       })}
                     </div>
                     <div className="mt-3 pt-2 border-t border-neutral-200 dark:border-neutral-600">
-                      <p className="text-[10px] text-neutral-400">{plotSensors.length} sensors • {plotSensors.filter((s) => s.status === "online").length} online</p>
+                      <p className="text-[10px] text-neutral-400">{plotSensors.length} sensors | {plotSensors.filter((s) => s.status === "online").length} online</p>
                     </div>
                   </div>
                 );
@@ -708,9 +719,9 @@ export default function IoT() {
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {[
-                { name: "LoRa", range: "2–15 km", power: "Ultra-low", dataRate: "0.3–50 kbps", count: sensors.filter((s) => s.protocol === "LoRa").length, color: "from-green-500 to-emerald-600" },
-                { name: "WiFi", range: "50–100 m", power: "Moderate", dataRate: "1–100 Mbps", count: sensors.filter((s) => s.protocol === "WiFi").length, color: "from-blue-500 to-indigo-600" },
-                { name: "Zigbee", range: "10–100 m", power: "Low", dataRate: "250 kbps", count: sensors.filter((s) => s.protocol === "Zigbee").length, color: "from-purple-500 to-violet-600" },
+                { name: "LoRa", range: "2-15 km", power: "Ultra-low", dataRate: "0.3-50 kbps", count: sensors.filter((s) => s.protocol === "LoRa").length, color: "from-green-500 to-emerald-600" },
+                { name: "WiFi", range: "50-100 m", power: "Moderate", dataRate: "1-100 Mbps", count: sensors.filter((s) => s.protocol === "WiFi").length, color: "from-blue-500 to-indigo-600" },
+                { name: "Zigbee", range: "10-100 m", power: "Low", dataRate: "250 kbps", count: sensors.filter((s) => s.protocol === "Zigbee").length, color: "from-purple-500 to-violet-600" },
                 { name: "NB-IoT", range: "Cellular", power: "Low", dataRate: "~250 kbps", count: sensors.filter((s) => s.protocol === "NB-IoT").length, color: "from-cyan-500 to-teal-600" },
               ].map((proto) => (
                 <div key={proto.name} className="bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-4 border border-neutral-100 dark:border-neutral-700">
