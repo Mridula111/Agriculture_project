@@ -1,5 +1,5 @@
 import { Link, Navigate } from "react-router-dom";
-import { Wheat, BarChart3, ShieldCheck, Radio, ArrowRight } from "lucide-react";
+import { Wheat, BarChart3, ShieldCheck, Radio } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
@@ -13,32 +13,32 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-stone-950 text-white flex flex-col justify-between selection:bg-amber-500 selection:text-white">
-      {/* Navbar */}
+      {/* Top Navbar */}
       <header className="max-w-7xl mx-auto w-full px-6 h-20 flex items-center justify-between border-b border-stone-800">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-amber-600 flex items-center justify-center text-white shadow-md shadow-amber-600/30">
             <Wheat size={22} />
           </div>
-          <span className="font-extrabold text-lg tracking-tight text-white">
-            CaneSense <span className="text-amber-400 font-normal text-xs uppercase ml-1 px-1.5 py-0.5 rounded border border-amber-500/30">Harvest OS</span>
+          <span className="font-extrabold text-xl tracking-tight text-white">
+            DesiCane <span className="text-amber-400 font-normal text-xs uppercase ml-1 px-1.5 py-0.5 rounded border border-amber-500/30">Harvest OS</span>
           </span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <Link to="/login">
-            <Button variant="ghost" className="text-stone-300 hover:text-white hover:bg-stone-900">
-              Sign In
+            <Button variant="ghost" className="text-stone-300 hover:text-white hover:bg-stone-900 px-4 py-2 text-sm">
+              Log In
             </Button>
           </Link>
           <Link to="/signup">
-            <Button variant="primary">
-              Access Console
+            <Button variant="primary" className="px-5 py-2 text-sm">
+              Sign Up
             </Button>
           </Link>
         </div>
       </header>
 
-      {/* Hero */}
-      <main className="max-w-5xl mx-auto px-6 py-24 flex flex-col items-center text-center">
+      {/* Main Hero */}
+      <main className="max-w-5xl mx-auto px-6 py-20 flex flex-col items-center text-center">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -56,21 +56,8 @@ export default function Landing() {
           Monitor sucrose maturation curves, optimize irrigation scheduling, and track milling supply logistics in a unified platform.
         </p>
 
-        <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
-          <Link to="/signup">
-            <Button variant="primary" className="px-8 py-3.5 text-base">
-              Launch Platform <ArrowRight size={16} />
-            </Button>
-          </Link>
-          <Link to="/login">
-            <Button variant="secondary" className="px-8 py-3.5 text-base bg-stone-900 hover:bg-stone-800 text-stone-200">
-              Existing Account
-            </Button>
-          </Link>
-        </div>
-
-        {/* Feature Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20 w-full text-left">
+        {/* Feature Highlights Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 w-full text-left">
           <div className="p-6 rounded-2xl bg-stone-900/60 border border-stone-800">
             <div className="w-10 h-10 rounded-xl bg-stone-800 flex items-center justify-center text-amber-400 mb-4">
               <BarChart3 size={20} />
@@ -98,7 +85,7 @@ export default function Landing() {
       </main>
 
       <footer className="border-t border-stone-900 py-6 text-center text-xs text-stone-600">
-        CaneSense Harvest Platform • Field Research Edition
+        DesiCane Harvest Platform • Field Research Edition
       </footer>
     </div>
   );
