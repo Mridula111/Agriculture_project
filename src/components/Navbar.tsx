@@ -65,16 +65,16 @@ export function Navbar() {
   ];
 
   return (
-    <aside className={`fixed top-0 left-0 h-screen z-50 bg-stone-900 border-r border-stone-800 transition-all duration-300 flex flex-col justify-between ${collapsed ? "w-20" : "w-64"}`}>
+    <aside className={`sticky top-0 h-screen z-40 bg-stone-900 border-r border-stone-800 transition-all duration-300 flex flex-col justify-between shrink-0 ${collapsed ? "w-20" : "w-64"}`}>
       {/* Brand Header */}
       <div>
         <div className="h-16 px-4 flex items-center justify-between border-b border-stone-800">
-          <Link to="/home" className="flex items-center gap-3">
+          <Link to="/home" className="flex items-center gap-3 overflow-hidden">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-white shadow-md shadow-amber-600/20 shrink-0">
               <Wheat size={22} />
             </div>
             {!collapsed && (
-              <div className="flex flex-col">
+              <div className="flex flex-col whitespace-nowrap">
                 <span className="font-extrabold text-base tracking-tight text-stone-100 leading-none">
                   DesiCane
                 </span>
@@ -86,7 +86,7 @@ export function Navbar() {
           </Link>
           <button 
             onClick={() => setCollapsed(!collapsed)}
-            className="p-1 rounded-lg text-stone-400 hover:text-stone-200 hover:bg-stone-800 transition-colors"
+            className="p-1 rounded-lg text-stone-400 hover:text-stone-200 hover:bg-stone-800 transition-colors cursor-pointer"
             aria-label="Toggle Navigation Width"
           >
             {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
@@ -102,13 +102,13 @@ export function Navbar() {
                 key={link.path}
                 to={link.path}
                 title={collapsed ? link.fallback : undefined}
-                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-150 ${
+                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-150 overflow-hidden whitespace-nowrap ${
                   isActive
                     ? "bg-amber-950/40 text-amber-300 shadow-xs border border-amber-800/40"
                     : "text-stone-400 hover:bg-stone-800/70 hover:text-stone-100"
                 }`}
               >
-                <link.icon size={18} className={isActive ? "text-amber-400" : "text-stone-400"} />
+                <link.icon size={18} className={`shrink-0 ${isActive ? "text-amber-400" : "text-stone-400"}`} />
                 {!collapsed && <span>{t(link.labelKey) || link.fallback}</span>}
               </Link>
             );
@@ -116,12 +116,12 @@ export function Navbar() {
         </nav>
       </div>
 
-      {/* Sidebar Footer */}
+      {/* Sidebar Footer Controls */}
       <div className="p-3 border-t border-stone-800 space-y-1">
         <div className={`flex items-center ${collapsed ? "flex-col gap-2" : "justify-between"} px-2 py-1`}>
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg text-stone-400 hover:bg-stone-800 transition-colors"
+            className="p-2 rounded-lg text-stone-400 hover:bg-stone-800 transition-colors cursor-pointer"
             title="Toggle Mode"
           >
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
@@ -133,10 +133,10 @@ export function Navbar() {
 
         <button
           onClick={handleLogout}
-          className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-rose-400 hover:bg-rose-950/30 transition-colors ${collapsed ? "justify-center" : ""}`}
+          className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-rose-400 hover:bg-rose-950/30 transition-colors cursor-pointer overflow-hidden whitespace-nowrap ${collapsed ? "justify-center" : ""}`}
           title="Logout"
         >
-          <LogOut size={18} />
+          <LogOut size={18} className="shrink-0" />
           {!collapsed && <span>{t("logout")}</span>}
         </button>
       </div>
