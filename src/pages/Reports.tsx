@@ -1,7 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { ClipboardList, Download, CheckCircle, FileText } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Download, FileText } from "lucide-react";
 
 export default function Reports() {
   const reports = [
@@ -32,7 +31,7 @@ export default function Reports() {
             </p>
           </header>
 
-          <div className="bg-stone-900 border border-stone-800 rounded-2xl p-6">
+          <div className="bg-stone-900 border border-stone-800 rounded-2xl p-6 shadow-sm">
             <div className="space-y-3">
               {reports.map((rep, idx) => (
                 <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-stone-950 border border-stone-800 gap-4">
