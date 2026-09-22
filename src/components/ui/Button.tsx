@@ -6,7 +6,7 @@ interface ButtonProps {
   children: ReactNode;
   onClick?: () => void;
   type?: "button" | "submit";
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "ghost" | "outline";
   loading?: boolean;
   disabled?: boolean;
   className?: string;
@@ -30,20 +30,20 @@ export function Button({
       onClick={onClick}
       disabled={disabled || loading}
       className={cn(
-        "inline-flex items-center justify-center gap-2 font-semibold rounded-xl px-6 py-3.5 text-base transition-all duration-200",
-        "min-h-[52px] min-w-[120px]", // Large tap targets
-        "active:scale-[0.98]",
-        "disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100",
+        "inline-flex items-center justify-center gap-2 font-semibold text-sm rounded-xl px-4 py-2.5 transition-all duration-150 cursor-pointer",
+        "disabled:opacity-50 disabled:cursor-not-allowed",
         variant === "primary" &&
-          "bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg shadow-green-600/25 hover:shadow-xl hover:shadow-green-600/30 hover:from-green-700 hover:to-emerald-700",
+          "bg-emerald-600 hover:bg-emerald-500 text-white shadow-xs active:translate-y-px",
         variant === "secondary" &&
-          "bg-white border-2 border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300",
+          "bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-700",
+        variant === "outline" &&
+          "border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800",
         variant === "ghost" &&
-          "bg-transparent text-green-700 hover:bg-green-50",
+          "bg-transparent text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800",
         className
       )}
     >
-      {loading && <Loader2 size={20} className="animate-spin" />}
+      {loading && <Loader2 size={16} className="animate-spin" />}
       {children}
     </button>
   );
