@@ -80,7 +80,7 @@ export function Navbar() {
               {!collapsed && (
                 <div className="flex flex-col">
                   <span className="font-extrabold text-base tracking-tight text-stone-900 dark:text-stone-100 leading-none">
-                    CaneSense
+                    DesiCane
                   </span>
                   <span className="text-[10px] tracking-wider uppercase text-amber-600 dark:text-amber-400 font-bold mt-1">
                     Harvest Intelligence
@@ -120,7 +120,7 @@ export function Navbar() {
           </nav>
         </div>
 
-        {/* Sidebar Footer */}
+        {/* Sidebar Footer Controls */}
         <div className="p-3 border-t border-stone-200 dark:border-stone-800 space-y-1">
           <div className={`flex items-center ${collapsed ? "flex-col gap-2" : "justify-between"} px-2 py-1`}>
             <button
