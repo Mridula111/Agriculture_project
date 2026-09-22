@@ -1,7 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Radio, Activity, Cpu, Wifi } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Radio, Wifi } from "lucide-react";
 
 export default function IoT() {
   const nodes = [
@@ -34,29 +33,29 @@ export default function IoT() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {nodes.map((node) => (
-              <Card key={node.id} className="bg-stone-900 border-stone-800">
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <div key={node.id} className="bg-stone-900 border border-stone-800 rounded-2xl p-5 shadow-sm">
+                <div className="flex items-center justify-between pb-3 border-b border-stone-800/80 mb-3">
                   <span className="text-xs font-mono font-bold text-amber-400">{node.id}</span>
                   <span className="flex items-center gap-1 text-[11px] text-emerald-400">
                     <Wifi size={12} /> {node.status}
                   </span>
-                </CardHeader>
-                <CardContent className="space-y-2 text-xs">
-                  <p className="text-stone-300 font-semibold">{node.sector}</p>
-                  <div className="flex justify-between text-stone-400 pt-2 border-t border-stone-800">
+                </div>
+                <div className="space-y-2 text-xs">
+                  <p className="text-stone-200 font-semibold text-sm">{node.sector}</p>
+                  <div className="flex justify-between text-stone-400 pt-2 border-t border-stone-800/60">
                     <span>Soil Moisture:</span>
-                    <span className="text-white font-mono">{node.soilMoist}</span>
+                    <span className="text-white font-mono font-medium">{node.soilMoist}</span>
                   </div>
                   <div className="flex justify-between text-stone-400">
                     <span>Conductivity (EC):</span>
-                    <span className="text-white font-mono">{node.ec}</span>
+                    <span className="text-white font-mono font-medium">{node.ec}</span>
                   </div>
                   <div className="flex justify-between text-stone-400">
                     <span>Gateway Battery:</span>
-                    <span className="text-amber-400 font-mono">{node.battery}</span>
+                    <span className="text-amber-400 font-mono font-medium">{node.battery}</span>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
         </main>
