@@ -69,44 +69,19 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
-/* ── Universal Sidebar Alignment Fix for All Pages ── */
+/* ── App Layout Structure ── */
 .page-container {
-  display: flex !important;
-  flex-direction: row !important;
   min-height: 100vh;
-  width: 100%;
+  display: flex;
   background-color: #0c0a09;
+  width: 100%;
 }
 
-/* Force main content on every page to fill space next to the sidebar */
-.page-container > main,
-main {
-  flex: 1 1 0% !important;
-  width: calc(100% - 16rem) !important;
-  margin-left: 16rem !important;
-  padding: 2rem 2.5rem !important;
-  min-height: 100vh;
-}
-
-/* Un-constrain old content-wrapper so cards take up full width */
+/* Ensure child views stretch fully */
 .content-wrapper {
-  max-width: 100% !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-/* Footer alignment if footer is placed inside main or page-container */
-footer {
-  width: 100% !important;
-}
-
-@media (max-width: 768px) {
-  .page-container > main,
-  main {
-    width: 100% !important;
-    margin-left: 0 !important;
-    padding: 1.25rem !important;
-  }
+  max-width: 1500px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 /* Scrollbar */
