@@ -1,14 +1,29 @@
-const flattenColorPalette = require("tailwindcss/lib/util/flattenColorPalette").default;
+import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
+  darkMode: "class",
   content: [
     "./index.html",
-    "./src/**/*.{ts,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: "class",
   theme: {
     extend: {
+      colors: {
+        // Semantic aliases for stone & amber harvest design system
+        harvest: {
+          50: "#fffbeb",
+          100: "#fef3c7",
+          200: "#fde68a",
+          300: "#fcd34d",
+          400: "#fbbf24",
+          500: "#f59e0b",
+          600: "#d97706",
+          700: "#b45309",
+          800: "#92400e",
+          900: "#78350f",
+        },
+      },
       animation: {
         aurora: "aurora 60s linear infinite",
         "spin-slow": "spin 15s linear infinite",
@@ -29,8 +44,9 @@ module.exports = {
 };
 
 function addVariablesForColors({ addBase, theme }) {
-  let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
+  const palette = flattenColorPalette?.default || flattenColorPalette;
+  const allColors = palette ? palette(theme("colors")) : {};
+  const newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
   );
 
