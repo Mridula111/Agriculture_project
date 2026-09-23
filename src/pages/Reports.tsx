@@ -23,23 +23,26 @@ export default function Reports() {
             <div className="flex items-center gap-2 mb-2">
               <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
               <span className="text-xs uppercase tracking-widest font-bold text-amber-700 dark:text-amber-400">
-                {t("reportsBadge", "Audits & Compliance")}
+                {t("reports" as any) || "Audits & Compliance"}
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tracking-tight">
-              {t("reportsTitle", "Field Reports & Mill Export Logs")}
+              Field Reports & Mill Export Logs
             </h1>
             <p className="text-stone-500 dark:text-stone-400 text-sm mt-1">
-              {t("reportsDesc", "Agronomy diagnostics, factory quality certificates, and season yield sheets.")}
+              Agronomy diagnostics, factory quality certificates, and season yield sheets.
             </p>
           </header>
 
-          <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-6 shadow-xs">
+          <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-6 shadow-xs transition-colors">
             <div className="space-y-3">
               {reports.map((rep, idx) => (
-                <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 gap-4">
+                <div 
+                  key={idx} 
+                  className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 gap-4 transition-colors"
+                >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-stone-100 dark:bg-stone-800 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-stone-100 dark:bg-stone-800 text-amber-700 dark:text-amber-400 flex items-center justify-center shrink-0">
                       <FileText size={20} />
                     </div>
                     <div>
