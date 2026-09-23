@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
-import { Wifi } from "lucide-react";
+import { Wifi, Radio, Cpu, BatteryCharging } from "lucide-react";
 
 export default function IoT() {
   const { t } = useLanguage();
@@ -23,22 +23,25 @@ export default function IoT() {
             <div className="flex items-center gap-2 mb-2">
               <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
               <span className="text-xs uppercase tracking-widest font-bold text-amber-700 dark:text-amber-400">
-                {t("iotBadge", "Sensor Telemetry Mesh")}
+                {t("iot" as any) || "Sensor Telemetry Mesh"}
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tracking-tight">
-              {t("iotTitle", "IoT Edge Gateways & Soil Probes")}
+              IoT Edge Gateways & Soil Probes
             </h1>
             <p className="text-stone-500 dark:text-stone-400 text-sm mt-1">
-              {t("iotDesc", "Real-time wireless capacitive sensors, salinity probes, and valve actuators.")}
+              Real-time wireless capacitive sensors, salinity probes, and valve actuators.
             </p>
           </header>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {nodes.map((node) => (
-              <div key={node.id} className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-5 shadow-xs">
+              <div 
+                key={node.id} 
+                className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-5 shadow-xs transition-colors"
+              >
                 <div className="flex items-center justify-between pb-3 border-b border-stone-100 dark:border-stone-800/80 mb-3">
-                  <span className="text-xs font-mono font-bold text-amber-600 dark:text-amber-400">{node.id}</span>
+                  <span className="text-xs font-mono font-bold text-amber-700 dark:text-amber-400">{node.id}</span>
                   <span className="flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">
                     <Wifi size={12} /> {node.status}
                   </span>
@@ -55,7 +58,7 @@ export default function IoT() {
                   </div>
                   <div className="flex justify-between text-stone-500 dark:text-stone-400">
                     <span>Gateway Battery:</span>
-                    <span className="text-amber-600 dark:text-amber-400 font-mono font-medium">{node.battery}</span>
+                    <span className="text-amber-700 dark:text-amber-400 font-mono font-medium">{node.battery}</span>
                   </div>
                 </div>
               </div>
