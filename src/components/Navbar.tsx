@@ -23,31 +23,31 @@ export function Navbar() {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      return (
+        localStorage.getItem("theme") === "dark" ||
+        (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
+      );
+    }
+    return false;
+  });
   const [collapsed, setCollapsed] = useState(false);
 
+  // Sync the DOM class on mount and whenever isDark changes
   useEffect(() => {
-    const isDarkStored = localStorage.getItem("theme") === "dark" ||
-      (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    if (isDarkStored) {
-      document.documentElement.classList.add("dark");
-      setIsDark(true);
+    const root = document.documentElement;
+    if (isDark) {
+      root.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     } else {
-      document.documentElement.classList.remove("dark");
-      setIsDark(false);
+      root.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
-  }, []);
+  }, [isDark]);
 
   const toggleTheme = () => {
-    if (isDark) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setIsDark(false);
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setIsDark(true);
-    }
+    setIsDark((prev) => !prev);
   };
 
   const handleLogout = () => {
@@ -56,16 +56,20 @@ export function Navbar() {
   };
 
   const navLinks = [
-    { path: "/home", icon: LayoutGrid, labelKey: "home" as const, fallback: "Command Center" },
-    { path: "/analysis", icon: BarChart2, labelKey: "analysis" as const, fallback: "Yield & Analytics" },
-    { path: "/weather", icon: CloudSun, labelKey: "weather" as const, fallback: "Microclimate" },
-    { path: "/inventory", icon: PackageCheck, labelKey: "inventory" as const, fallback: "Stock & Biomass" },
-    { path: "/iot", icon: Radio, labelKey: "iot" as const, fallback: "IoT Field Grid" },
-    { path: "/reports", icon: ClipboardList, labelKey: "reports" as const, fallback: "Field Reports" },
+    { path: "/home", icon: LayoutGrid, key: "home", defaultLabel: "Command Center" },
+    { path: "/analysis", icon: BarChart2, key: "analysis", defaultLabel: "Yield & Analytics" },
+    { path: "/weather", icon: CloudSun, key: "weather", defaultLabel: "Microclimate Telemetry" },
+    { path: "/inventory", icon: PackageCheck, key: "inventory", defaultLabel: "Stock & Biomass" },
+    { path: "/iot", icon: Radio, key: "iot", defaultLabel: "IoT Field Grid" },
+    { path: "/reports", icon: ClipboardList, key: "reports", defaultLabel: "Field Reports" },
   ];
 
   return (
-    <aside className={`sticky top-0 h-screen z-40 bg-stone-900 border-r border-stone-800 transition-all duration-300 flex flex-col justify-between shrink-0 ${collapsed ? "w-20" : "w-64"}`}>
+    <aside
+      className={`sticky top-0 h-screen z-40 bg-stone-900 border-r border-stone-800 transition-all duration-300 flex flex-col justify-between shrink-0 ${
+        collapsed ? "w-20" : "w-64"
+      }`}
+    >
       {/* Brand Header */}
       <div>
         <div className="h-16 px-4 flex items-center justify-between border-b border-stone-800">
@@ -93,15 +97,17 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Links */}
+        {/* Navigation Links */}
         <nav className="p-3 space-y-1">
           {navLinks.map((link) => {
             const isActive = location.pathname.startsWith(link.path);
+            const label = t(link.key, link.defaultLabel);
+
             return (
               <Link
                 key={link.path}
                 to={link.path}
-                title={collapsed ? link.fallback : undefined}
+                title={collapsed ? label : undefined}
                 className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-150 overflow-hidden whitespace-nowrap ${
                   isActive
                     ? "bg-amber-950/40 text-amber-300 shadow-xs border border-amber-800/40"
@@ -109,20 +115,21 @@ export function Navbar() {
                 }`}
               >
                 <link.icon size={18} className={`shrink-0 ${isActive ? "text-amber-400" : "text-stone-400"}`} />
-                {!collapsed && <span>{t(link.labelKey) || link.fallback}</span>}
+                {!collapsed && <span>{label}</span>}
               </Link>
             );
           })}
         </nav>
       </div>
 
-      {/* Sidebar Footer Controls */}
+      {/* Sidebar Controls */}
       <div className="p-3 border-t border-stone-800 space-y-1">
         <div className={`flex items-center ${collapsed ? "flex-col gap-2" : "justify-between"} px-2 py-1`}>
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg text-stone-400 hover:bg-stone-800 transition-colors cursor-pointer"
-            title="Toggle Mode"
+            className="p-2 rounded-lg text-stone-400 hover:bg-stone-800 hover:text-amber-400 transition-colors cursor-pointer"
+            title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            aria-label="Toggle Theme Mode"
           >
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
@@ -133,11 +140,13 @@ export function Navbar() {
 
         <button
           onClick={handleLogout}
-          className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-rose-400 hover:bg-rose-950/30 transition-colors cursor-pointer overflow-hidden whitespace-nowrap ${collapsed ? "justify-center" : ""}`}
-          title="Logout"
+          className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-rose-400 hover:bg-rose-950/30 transition-colors cursor-pointer overflow-hidden whitespace-nowrap ${
+            collapsed ? "justify-center" : ""
+          }`}
+          title={t("logout", "Logout")}
         >
           <LogOut size={18} className="shrink-0" />
-          {!collapsed && <span>{t("logout")}</span>}
+          {!collapsed && <span>{t("logout", "Logout")}</span>}
         </button>
       </div>
     </aside>
