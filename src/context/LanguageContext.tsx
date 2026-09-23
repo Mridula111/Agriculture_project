@@ -4,17 +4,33 @@ import { translations, type Language, type TranslationKey } from "@/lib/translat
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: TranslationKey) => string;
+  t: (key: TranslationKey | string, fallback?: string) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | null>(null);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en");
+  const [language, setLanguageState] = useState<Language>(() => {
+    return (localStorage.getItem("app_lang") as Language) || "en";
+  });
+
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    localStorage.setItem("app_lang", lang);
+  };
 
   const t = useCallback(
-    (key: TranslationKey): string => {
-      return translations[language][key] || translations.en[key] || key;
+    (key: TranslationKey | string, fallback?: string): string => {
+      const activeDict = (translations as Record<string, Record<string, string>>)[language];
+      const enDict = translations.en as Record<string, string>;
+
+      if (activeDict && activeDict[key]) {
+        return activeDict[key];
+      }
+      if (enDict && enDict[key]) {
+        return enDict[key];
+      }
+      return fallback || key;
     },
     [language]
   );
