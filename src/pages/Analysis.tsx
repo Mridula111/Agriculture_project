@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { useLanguage } from "@/context/LanguageContext";
 import { PieChart } from "@/components/charts/PieChart";
 import { BarChart } from "@/components/charts/BarChart";
 import { LineChart } from "@/components/charts/LineChart";
@@ -69,15 +70,15 @@ function SelectField({ label, value, onChange, options }: {
 }) {
   return (
     <div className="relative">
-      <label className="block text-xs font-semibold text-stone-400 mb-1.5">{label}</label>
+      <label className="block text-xs font-semibold text-stone-500 dark:text-stone-400 mb-1.5">{label}</label>
       <div className="relative">
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full appearance-none bg-stone-900 border border-stone-800 rounded-xl px-4 py-2.5 pr-10 text-sm font-medium text-stone-100 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer"
+          className="w-full appearance-none bg-stone-100 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl px-4 py-2.5 pr-10 text-sm font-medium text-stone-800 dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer"
         >
           {options.map((opt) => (
-            <option key={opt} value={opt} className="bg-stone-900 text-stone-100">{opt}</option>
+            <option key={opt} value={opt} className="bg-stone-100 dark:bg-stone-900 text-stone-800 dark:text-stone-100">{opt}</option>
           ))}
         </select>
         <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />
@@ -87,6 +88,7 @@ function SelectField({ label, value, onChange, options }: {
 }
 
 export default function Analysis() {
+  const { t } = useLanguage();
   const [plotArea, setPlotArea] = useState(5);
   const [variety, setVariety] = useState(VARIETIES[0].name);
   const [soil, setSoil] = useState(Object.keys(SOIL_FACTORS)[0]);
@@ -141,31 +143,31 @@ export default function Analysis() {
   };
 
   return (
-    <div className="flex min-h-screen bg-stone-950 text-stone-100 w-full">
-      {/* Sticky Left Sidebar */}
+    <div className="flex min-h-screen bg-stone-50 dark:bg-stone-950 text-stone-800 dark:text-stone-100 w-full transition-colors duration-200">
+      {/* Sidebar */}
       <Navbar />
 
-      {/* Main Content Area filling remaining space */}
+      {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
         <main className="flex-1 p-6 lg:p-10 w-full max-w-[1600px] mx-auto">
           {/* Header Banner */}
-          <header className="pb-8 border-b border-stone-800 mb-8">
+          <header className="pb-8 border-b border-stone-200 dark:border-stone-800 mb-8">
             <div className="flex items-center gap-2 mb-2">
               <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
-              <span className="text-xs uppercase tracking-widest font-bold text-amber-400">
-                Agronomic Science Engine
+              <span className="text-xs uppercase tracking-widest font-bold text-amber-700 dark:text-amber-400">
+                {t("scienceEngineBadge", "Agronomic Science Engine")}
               </span>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex items-center justify-center text-amber-500 shrink-0">
+              <div className="w-12 h-12 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex items-center justify-center text-amber-600 dark:text-amber-500 shrink-0">
                 <Beaker size={24} />
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                Sugarcane Analysis & Sucrose Recovery
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tracking-tight">
+                {t("analysisTitle", "Sugarcane Analysis & Sucrose Recovery")}
               </h1>
             </div>
-            <p className="text-stone-400 text-sm mt-2 max-w-3xl leading-relaxed">
-              Real-time yield prediction, commercial cane sugar (CCS) extraction indices, and harvest cost-benefit calculations.
+            <p className="text-stone-500 dark:text-stone-400 text-sm mt-2 max-w-3xl leading-relaxed">
+              {t("analysisDesc", "Real-time yield prediction, commercial cane sugar (CCS) extraction indices, and harvest cost-benefit calculations.")}
             </p>
           </header>
 
@@ -174,51 +176,59 @@ export default function Analysis() {
             <motion.section
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-stone-900 rounded-2xl border border-stone-800 shadow-md overflow-hidden w-full"
+              className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-xs overflow-hidden w-full"
             >
               <button
                 onClick={() => toggleSection("yield")}
-                className="w-full flex items-center justify-between p-6 text-left hover:bg-stone-800/40 transition-colors cursor-pointer"
+                className="w-full flex items-center justify-between p-6 text-left hover:bg-stone-100/50 dark:hover:bg-stone-800/40 transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-amber-600 rounded-xl flex items-center justify-center text-white shadow-md shadow-amber-600/20 shrink-0">
                     <Calculator size={20} />
                   </div>
                   <div>
-                    <h2 className="text-base font-bold text-white">Yield Prediction Calculator</h2>
-                    <p className="text-xs text-stone-400">Based on regional agronomy trial calibration</p>
+                    <h2 className="text-base font-bold text-stone-900 dark:text-white">
+                      {t("yieldCalculator", "Yield Prediction Calculator")}
+                    </h2>
+                    <p className="text-xs text-stone-500 dark:text-stone-400">
+                      {t("yieldCalibDesc", "Based on regional agronomy trial calibration")}
+                    </p>
                   </div>
                 </div>
                 <ChevronDown size={20} className={`text-stone-400 transition-transform duration-300 ${expandedSection === "yield" ? "rotate-180" : ""}`} />
               </button>
 
               {expandedSection === "yield" && (
-                <div className="px-6 pb-6 border-t border-stone-800/60 pt-4">
+                <div className="px-6 pb-6 border-t border-stone-200 dark:border-stone-800/60 pt-4">
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                     <div>
-                      <label className="block text-xs font-semibold text-stone-400 mb-1.5">Plot Area (Acres)</label>
+                      <label className="block text-xs font-semibold text-stone-500 dark:text-stone-400 mb-1.5">
+                        {t("plotAreaLabel", "Plot Area (Acres)")}
+                      </label>
                       <input
                         type="number"
                         value={plotArea}
                         onChange={(e) => setPlotArea(Math.max(0.5, Number(e.target.value)))}
-                        className="w-full bg-stone-900 border border-stone-800 rounded-xl px-4 py-2.5 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                        className="w-full bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl px-4 py-2.5 text-sm font-medium text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
                         min={0.5}
                         step={0.5}
                       />
                     </div>
-                    <SelectField label="Variety" value={variety} onChange={setVariety} options={VARIETIES.map((v) => v.name)} />
-                    <SelectField label="Soil Type" value={soil} onChange={setSoil} options={Object.keys(SOIL_FACTORS)} />
-                    <SelectField label="Irrigation Method" value={irrigation} onChange={setIrrigation} options={Object.keys(IRRIGATION_FACTORS)} />
-                    <SelectField label="Season / Planting" value={season} onChange={setSeason} options={Object.keys(SEASON_FACTORS)} />
+                    <SelectField label={t("varietyLabel", "Variety")} value={variety} onChange={setVariety} options={VARIETIES.map((v) => v.name)} />
+                    <SelectField label={t("soilLabel", "Soil Type")} value={soil} onChange={setSoil} options={Object.keys(SOIL_FACTORS)} />
+                    <SelectField label={t("irrigationLabel", "Irrigation Method")} value={irrigation} onChange={setIrrigation} options={Object.keys(IRRIGATION_FACTORS)} />
+                    <SelectField label={t("seasonLabel", "Season / Planting")} value={season} onChange={setSeason} options={Object.keys(SEASON_FACTORS)} />
                   </div>
 
                   {/* Formula Display */}
-                  <div className="bg-stone-950 rounded-xl p-4 mb-6 border border-stone-800">
-                    <p className="text-xs font-mono text-stone-400 mb-2">Computational Formula:</p>
-                    <p className="text-sm font-mono text-stone-300">
+                  <div className="bg-stone-100 dark:bg-stone-950 rounded-xl p-4 mb-6 border border-stone-200 dark:border-stone-800">
+                    <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mb-2">
+                      {t("compFormula", "Computational Formula:")}
+                    </p>
+                    <p className="text-sm font-mono text-stone-700 dark:text-stone-300">
                       Yield = Base({yieldCalc.baseTPA}t) × Soil({yieldCalc.soilF}) × Irrigation({yieldCalc.irrigF}) × Season({yieldCalc.seasonF})
                     </p>
-                    <p className="text-sm font-mono text-amber-400 font-bold mt-1">
+                    <p className="text-sm font-mono text-amber-600 dark:text-amber-400 font-bold mt-1">
                       = {yieldCalc.estimatedTPA.toFixed(1)} tonnes/acre
                     </p>
                   </div>
@@ -226,20 +236,20 @@ export default function Analysis() {
                   {/* Result Cards */}
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                     {[
-                      { icon: Wheat, label: "Yield / Acre", value: `${yieldCalc.estimatedTPA.toFixed(1)}t` },
-                      { icon: Sprout, label: "Total Yield", value: `${yieldCalc.totalYield.toFixed(0)}t` },
-                      { icon: TrendingUp, label: "Sugar Recovery", value: `${selectedVariety.sugarRecovery}%` },
-                      { icon: Leaf, label: "Variety Factor", value: `${selectedVariety.baseTPA}t base` },
+                      { icon: Wheat, label: t("yieldPerAcre", "Yield / Acre"), value: `${yieldCalc.estimatedTPA.toFixed(1)}t` },
+                      { icon: Sprout, label: t("totalYield", "Total Yield"), value: `${yieldCalc.totalYield.toFixed(0)}t` },
+                      { icon: TrendingUp, label: t("sugarRecovery", "Sugar Recovery"), value: `${selectedVariety.sugarRecovery}%` },
+                      { icon: Leaf, label: t("varietyFactor", "Variety Factor"), value: `${selectedVariety.baseTPA}t base` },
                     ].map((card, i) => (
                       <div
                         key={i}
-                        className="bg-stone-950 rounded-xl p-4 border border-stone-800 text-center"
+                        className="bg-stone-50 dark:bg-stone-950 rounded-xl p-4 border border-stone-200 dark:border-stone-800 text-center"
                       >
-                        <div className="w-10 h-10 bg-stone-900 border border-stone-800 text-amber-400 rounded-xl flex items-center justify-center mx-auto mb-2">
+                        <div className="w-10 h-10 bg-stone-200 dark:bg-stone-900 border border-stone-300 dark:border-stone-800 text-amber-600 dark:text-amber-400 rounded-xl flex items-center justify-center mx-auto mb-2">
                           <card.icon size={18} />
                         </div>
-                        <p className="text-xl font-black text-white">{card.value}</p>
-                        <p className="text-xs text-stone-400 mt-0.5">{card.label}</p>
+                        <p className="text-xl font-black text-stone-900 dark:text-white">{card.value}</p>
+                        <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">{card.label}</p>
                       </div>
                     ))}
                   </div>
@@ -251,59 +261,67 @@ export default function Analysis() {
             <motion.section
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-stone-900 rounded-2xl border border-stone-800 shadow-md overflow-hidden w-full"
+              className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-xs overflow-hidden w-full"
             >
               <button
                 onClick={() => toggleSection("sugar")}
-                className="w-full flex items-center justify-between p-6 text-left hover:bg-stone-800/40 transition-colors cursor-pointer"
+                className="w-full flex items-center justify-between p-6 text-left hover:bg-stone-100/50 dark:hover:bg-stone-800/40 transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-amber-600 rounded-xl flex items-center justify-center text-white shadow-md shadow-amber-600/20 shrink-0">
                     <Beaker size={20} />
                   </div>
                   <div>
-                    <h2 className="text-base font-bold text-white">Sugar Recovery (CCS) Analysis</h2>
-                    <p className="text-xs text-stone-400">Commercial Cane Sugar calculation — Mill Standards</p>
+                    <h2 className="text-base font-bold text-stone-900 dark:text-white">
+                      {t("sugarRecoveryTitle", "Sugar Recovery (CCS) Analysis")}
+                    </h2>
+                    <p className="text-xs text-stone-500 dark:text-stone-400">
+                      {t("sugarRecoveryDesc", "Commercial Cane Sugar calculation — Mill Standards")}
+                    </p>
                   </div>
                 </div>
                 <ChevronDown size={20} className={`text-stone-400 transition-transform duration-300 ${expandedSection === "sugar" ? "rotate-180" : ""}`} />
               </button>
 
               {expandedSection === "sugar" && (
-                <div className="px-6 pb-6 border-t border-stone-800/60 pt-4">
+                <div className="px-6 pb-6 border-t border-stone-200 dark:border-stone-800/60 pt-4">
                   <div className="grid sm:grid-cols-2 gap-4 mb-6">
                     <div>
-                      <label className="block text-xs font-semibold text-stone-400 mb-1.5">Brix Reading (%)</label>
+                      <label className="block text-xs font-semibold text-stone-500 dark:text-stone-400 mb-1.5">
+                        {t("brixLabel", "Brix Reading (%)")}
+                      </label>
                       <input
                         type="number"
                         value={brix}
                         onChange={(e) => setBrix(Number(e.target.value))}
-                        className="w-full bg-stone-900 border border-stone-800 rounded-xl px-4 py-2.5 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                        className="w-full bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl px-4 py-2.5 text-sm font-medium text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
                         min={10} max={30} step={0.1}
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-stone-400 mb-1.5">Pol / Sucrose (%)</label>
+                      <label className="block text-xs font-semibold text-stone-500 dark:text-stone-400 mb-1.5">
+                        {t("polLabel", "Pol / Sucrose (%)")}
+                      </label>
                       <input
                         type="number"
                         value={pol}
                         onChange={(e) => setPol(Number(e.target.value))}
-                        className="w-full bg-stone-900 border border-stone-800 rounded-xl px-4 py-2.5 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                        className="w-full bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl px-4 py-2.5 text-sm font-medium text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
                         min={5} max={25} step={0.1}
                       />
                     </div>
                   </div>
 
                   {/* CCS Formula */}
-                  <div className="bg-stone-950 rounded-xl p-4 mb-6 border border-stone-800">
-                    <p className="text-xs font-mono text-amber-400 mb-2">CCS Formula (Standard):</p>
-                    <p className="text-sm font-mono text-stone-300">
+                  <div className="bg-stone-100 dark:bg-stone-950 rounded-xl p-4 mb-6 border border-stone-200 dark:border-stone-800">
+                    <p className="text-xs font-mono text-amber-700 dark:text-amber-400 mb-2">CCS Formula (Standard):</p>
+                    <p className="text-sm font-mono text-stone-700 dark:text-stone-300">
                       CCS% = (Pol × 0.946) − ((Brix − Pol) × 0.53)
                     </p>
-                    <p className="text-sm font-mono text-stone-400 mt-1">
+                    <p className="text-sm font-mono text-stone-500 dark:text-stone-400 mt-1">
                       CCS% = ({pol} × 0.946) − (({brix} − {pol}) × 0.53)
                     </p>
-                    <p className="text-sm font-mono text-amber-400 font-bold mt-1">
+                    <p className="text-sm font-mono text-amber-700 dark:text-amber-400 font-bold mt-1">
                       = {sugarCalc.ccs.toFixed(2)}%
                     </p>
                   </div>
@@ -311,14 +329,14 @@ export default function Analysis() {
                   {/* Revenue Results */}
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                     {[
-                      { label: "CCS Recovery", value: `${sugarCalc.ccs.toFixed(2)}%`, sub: "Commercial Cane Sugar" },
-                      { label: "Adjusted FRP", value: `₹${sugarCalc.adjustedFRP.toFixed(0)}`, sub: "Per quintal" },
-                      { label: "Revenue / Acre", value: `₹${(sugarCalc.revenuePerAcre / 1000).toFixed(1)}k`, sub: `At ${yieldCalc.estimatedTPA.toFixed(1)}t/acre` },
-                      { label: "Total Revenue", value: `₹${(sugarCalc.totalRevenue / 100000).toFixed(2)}L`, sub: `For ${plotArea} acres` },
+                      { label: t("ccsRecoveryLabel", "CCS Recovery"), value: `${sugarCalc.ccs.toFixed(2)}%`, sub: "Commercial Cane Sugar" },
+                      { label: t("adjustedFrpLabel", "Adjusted FRP"), value: `₹${sugarCalc.adjustedFRP.toFixed(0)}`, sub: "Per quintal" },
+                      { label: t("revenuePerAcreLabel", "Revenue / Acre"), value: `₹${(sugarCalc.revenuePerAcre / 1000).toFixed(1)}k`, sub: `At ${yieldCalc.estimatedTPA.toFixed(1)}t/acre` },
+                      { label: t("totalRevenueLabel", "Total Revenue"), value: `₹${(sugarCalc.totalRevenue / 100000).toFixed(2)}L`, sub: `For ${plotArea} acres` },
                     ].map((card, i) => (
-                      <div key={i} className="bg-stone-950 rounded-xl p-4 border border-stone-800">
-                        <p className="text-xl font-black text-white">{card.value}</p>
-                        <p className="text-xs font-semibold text-amber-400 mt-1">{card.label}</p>
+                      <div key={i} className="bg-stone-50 dark:bg-stone-950 rounded-xl p-4 border border-stone-200 dark:border-stone-800">
+                        <p className="text-xl font-black text-stone-900 dark:text-white">{card.value}</p>
+                        <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 mt-1">{card.label}</p>
                         <p className="text-[10px] text-stone-500">{card.sub}</p>
                       </div>
                     ))}
@@ -331,63 +349,69 @@ export default function Analysis() {
             <motion.section
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-stone-900 rounded-2xl border border-stone-800 shadow-md overflow-hidden w-full"
+              className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-xs overflow-hidden w-full"
             >
               <button
                 onClick={() => toggleSection("cost")}
-                className="w-full flex items-center justify-between p-6 text-left hover:bg-stone-800/40 transition-colors cursor-pointer"
+                className="w-full flex items-center justify-between p-6 text-left hover:bg-stone-100/50 dark:hover:bg-stone-800/40 transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-amber-600 rounded-xl flex items-center justify-center text-white shadow-md shadow-amber-600/20 shrink-0">
                     <IndianRupee size={20} />
                   </div>
                   <div>
-                    <h2 className="text-base font-bold text-white">Cost-Benefit Analysis</h2>
-                    <p className="text-xs text-stone-400">Input costs vs. expected revenue — ROI calculation</p>
+                    <h2 className="text-base font-bold text-stone-900 dark:text-white">
+                      {t("costBenefitTitle", "Cost-Benefit Analysis")}
+                    </h2>
+                    <p className="text-xs text-stone-500 dark:text-stone-400">
+                      {t("costBenefitDesc", "Input costs vs. expected revenue — ROI calculation")}
+                    </p>
                   </div>
                 </div>
                 <ChevronDown size={20} className={`text-stone-400 transition-transform duration-300 ${expandedSection === "cost" ? "rotate-180" : ""}`} />
               </button>
 
               {expandedSection === "cost" && (
-                <div className="px-6 pb-6 border-t border-stone-800/60 pt-4">
+                <div className="px-6 pb-6 border-t border-stone-200 dark:border-stone-800/60 pt-4">
                   <div className="grid lg:grid-cols-2 gap-8">
                     <div>
-                      <h3 className="text-sm font-bold text-stone-300 mb-3">Cost Breakdown (per acre)</h3>
+                      <h3 className="text-sm font-bold text-stone-700 dark:text-stone-300 mb-3">
+                        {t("costBreakdownHeader", "Cost Breakdown (per acre)")}
+                      </h3>
                       <div className="space-y-2">
                         {COST_ITEMS.map((item, i) => (
-                          <div key={i} className="flex items-center justify-between py-2 border-b border-stone-800">
+                          <div key={i} className="flex items-center justify-between py-2 border-b border-stone-200 dark:border-stone-800">
                             <div className="flex items-center gap-2">
                               <span className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
-                              <span className="text-sm text-stone-300">{item.name}</span>
+                              <span className="text-sm text-stone-700 dark:text-stone-300">{item.name}</span>
                             </div>
-                            <span className="text-sm font-semibold text-white">₹{item.costPerAcre.toLocaleString()}</span>
+                            <span className="text-sm font-semibold text-stone-900 dark:text-white">₹{item.costPerAcre.toLocaleString()}</span>
                           </div>
                         ))}
                         <div className="flex items-center justify-between py-2 font-bold">
-                          <span className="text-sm text-white">Total per Acre</span>
-                          <span className="text-sm text-amber-400">₹{costCalc.totalCostPerAcre.toLocaleString()}</span>
+                          <span className="text-sm text-stone-900 dark:text-white">{t("totalPerAcreLabel", "Total per Acre")}</span>
+                          <span className="text-sm text-amber-700 dark:text-amber-400">₹{costCalc.totalCostPerAcre.toLocaleString()}</span>
                         </div>
                       </div>
 
                       <div className="mt-4 grid grid-cols-2 gap-3">
-                        <div className="rounded-xl p-3 border border-stone-800 bg-stone-950">
-                          <p className="text-lg font-black text-amber-400">
+                        <div className="rounded-xl p-3 border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950">
+                          <p className="text-lg font-black text-amber-700 dark:text-amber-400">
                             ₹{(costCalc.profit / 100000).toFixed(2)}L
                           </p>
-                          <p className="text-xs text-stone-400">Net Profit</p>
+                          <p className="text-xs text-stone-500 dark:text-stone-400">{t("netProfitLabel", "Net Profit")}</p>
                         </div>
-                        <div className="rounded-xl p-3 border border-stone-800 bg-stone-950">
-                          <p className="text-lg font-black text-amber-400">
+                        <div className="rounded-xl p-3 border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950">
+                          <p className="text-lg font-black text-amber-700 dark:text-amber-400">
                             {costCalc.roi.toFixed(1)}%
                           </p>
-                          <p className="text-xs text-stone-400">Estimated ROI</p>
+                          <p className="text-xs text-stone-500 dark:text-stone-400">{t("estimatedRoiLabel", "Estimated ROI")}</p>
                         </div>
                       </div>
                     </div>
 
                     <div className="flex items-center justify-center">
-                      <PieChart data={costPieData} title="Expense Distribution" />
+                      <PieChart data={costPieData} title={t("expenseDistTitle", "Expense Distribution")} />
                     </div>
                   </div>
                 </div>
@@ -396,19 +420,19 @@ export default function Analysis() {
 
             {/* ═══ CHARTS SECTION ═══ */}
             <div className="grid lg:grid-cols-2 gap-6 w-full">
-              <div className="bg-stone-900 rounded-2xl border border-stone-800 p-6 shadow-md w-full">
+              <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 p-6 shadow-xs w-full">
                 <BarChart
                   data={MONTHLY_WATER}
-                  title="Monthly Water Requirement (lakh litres/acre)"
+                  title={t("waterReqTitle", "Monthly Water Requirement (lakh litres/acre)")}
                   height={220}
                   barColor="#d97706"
                 />
               </div>
 
-              <div className="bg-stone-900 rounded-2xl border border-stone-800 p-6 shadow-md w-full">
+              <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 p-6 shadow-xs w-full">
                 <LineChart
                   data={YIELD_TRENDS}
-                  title="Yield Trend (tonnes/acre) — Karnataka Regional Average"
+                  title={t("yieldTrendTitle", "Yield Trend (tonnes/acre) — Regional Average")}
                   height={220}
                   unit="t"
                   lineColor="#f59e0b"
@@ -417,17 +441,17 @@ export default function Analysis() {
             </div>
 
             {/* ═══ GROWTH STAGES TABLE ═══ */}
-            <section className="bg-stone-900 rounded-2xl border border-stone-800 p-6 shadow-md w-full">
-              <h2 className="text-base font-bold text-white mb-4 flex items-center gap-2">
-                <Sprout size={18} className="text-amber-500" />
-                Growth Stage Physiological Requirements
+            <section className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 p-6 shadow-xs w-full">
+              <h2 className="text-base font-bold text-stone-900 dark:text-white mb-4 flex items-center gap-2">
+                <Sprout size={18} className="text-amber-600 dark:text-amber-500" />
+                {t("growthStagesTitle", "Growth Stage Physiological Requirements")}
               </h2>
               <div className="overflow-x-auto w-full">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-stone-800">
+                    <tr className="border-b border-stone-200 dark:border-stone-800">
                       {["Stage", "Duration", "Water Need", "Fertilizer", "Key Action"].map((h) => (
-                        <th key={h} className="text-left py-3 px-3 text-xs font-bold text-stone-400 uppercase tracking-wider">{h}</th>
+                        <th key={h} className="text-left py-3 px-3 text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-wider">{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -438,20 +462,20 @@ export default function Analysis() {
                       { stage: "Grand Growth", duration: "120–270 days", water: "HIGH ⚡", fertilizer: "N + K", action: "No moisture stress" },
                       { stage: "Maturation", duration: "270–360 days", water: "Reduce", fertilizer: "None", action: "Withhold 2wk pre-harvest" },
                     ].map((row, i) => (
-                      <tr key={i} className="border-b border-stone-800/60 hover:bg-stone-800/30 transition-colors">
-                        <td className="py-3 px-3 font-semibold text-white">{row.stage}</td>
-                        <td className="py-3 px-3 text-stone-400">{row.duration}</td>
+                      <tr key={i} className="border-b border-stone-200 dark:border-stone-800/60 hover:bg-stone-50 dark:hover:bg-stone-800/30 transition-colors">
+                        <td className="py-3 px-3 font-semibold text-stone-900 dark:text-white">{row.stage}</td>
+                        <td className="py-3 px-3 text-stone-600 dark:text-stone-400">{row.duration}</td>
                         <td className="py-3 px-3">
                           <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
-                            row.water === "HIGH ⚡" ? "bg-rose-950/60 text-rose-400 border border-rose-800/40" :
-                            row.water === "Moderate" ? "bg-amber-950/60 text-amber-400 border border-amber-800/40" :
-                            "bg-stone-800 text-stone-300"
+                            row.water === "HIGH ⚡" ? "bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border border-rose-300 dark:border-rose-800/40" :
+                            row.water === "Moderate" ? "bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-400 border border-amber-300 dark:border-amber-800/40" :
+                            "bg-stone-200 dark:bg-stone-800 text-stone-700 dark:text-stone-300"
                           }`}>
                             {row.water}
                           </span>
                         </td>
-                        <td className="py-3 px-3 text-stone-400">{row.fertilizer}</td>
-                        <td className="py-3 px-3 text-stone-400">{row.action}</td>
+                        <td className="py-3 px-3 text-stone-600 dark:text-stone-400">{row.fertilizer}</td>
+                        <td className="py-3 px-3 text-stone-600 dark:text-stone-400">{row.action}</td>
                       </tr>
                     ))}
                   </tbody>
